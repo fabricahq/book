@@ -26,7 +26,7 @@ Everything you push to `main` here will be on the website.
 ## Layout
 
 ```text
-index.md                      the book's title and its introduction page
+index.md                      the book's title, and its introduction as the body
 01-introduction/              a chapter
   index.md                    the chapter's title and intro
   01-what-a-software-factory-is.md   a section
@@ -43,7 +43,10 @@ index.md                      the book's title and its introduction page
   `index.md`.
 - A chapter holds **sections**. Each section is one Markdown file in the
   chapter's folder.
-- `index.md` at the top holds the book's title and introduction.
+- `index.md` at the top holds the book's title in its front matter and the
+  book's introduction as its body. The introduction opens the book's page on
+  the website, beside the cover, so keep it to a few sentences; it can have
+  more than one paragraph.
 - Other folders, such as `images/`, can hold images and other files. They
   cannot hold Markdown.
 
@@ -87,7 +90,6 @@ The section's text starts here.
 | Field      | Where                   | Meaning                                                    |
 | ---------- | ----------------------- | ---------------------------------------------------------- |
 | `title`    | Every page              | The page's title. Required, unless the file starts with a `# Title` line, which then becomes the title. |
-| `subtitle` | The top `index.md` only | A one-line description shown under the book's title.       |
 | `status`   | Chapters and sections   | `planned`, `draft`, or `solid`. Leave it out for `solid`.  |
 | `appendix` | A chapter's `index.md`  | `true` makes the chapter an appendix. Appendices come after every chapter. |
 
@@ -95,10 +97,17 @@ Any other field is an error, so a typo such as `stauts` cannot hide.
 
 ### Status
 
-- `planned`: an outline of what the page will cover. Readers see a "Planned"
-  badge and a note that it is not written yet.
-- `draft`: written but still changing. Readers see a "Draft" badge.
-- `solid`: finished. No badge.
+- `planned`: an outline of what the page will cover. The page says it is not
+  written yet.
+- `draft`: written but still changing. The page says it may change.
+- `solid`: finished, shown to readers as "Written". The page has no note.
+
+In the contents, a key explains the three states: a hollow circle for
+planned, a half-filled circle for draft, and a filled circle for written.
+While every page has the same status, the contents says so in one sentence.
+Once statuses differ, each chapter and section shows its own circle, drafts
+are labeled "Draft", and planned titles are lighter. Each page shows its own
+status; a chapter's status says nothing about its sections.
 
 ## Writing
 

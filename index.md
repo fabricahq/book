@@ -1,4 +1,5 @@
 ---
 title: A Comprehensive Guide to Software Factories
-subtitle: Everything I've learned about software factories
 ---
+
+A practical guide to building a software factory you own, from one supervised task to a factory that improves itself.
