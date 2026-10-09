@@ -91,22 +91,24 @@ The section's text starts here.
 | ---------- | ----------------------- | ---------------------------------------------------------- |
 | `title`    | Every page              | The page's title. Required, unless the file starts with a `# Title` line, which then becomes the title. |
 | `status`   | Chapters and sections   | `planned`, `draft`, or `solid`. Leave it out for `solid`.  |
+| `subtitle` | A chapter's `index.md`  | Optional. One line shown in italics under the chapter's title, in the contents and on the chapter's page. |
 | `appendix` | A chapter's `index.md`  | `true` makes the chapter an appendix. Appendices come after every chapter. |
 
 Any other field is an error, so a typo such as `stauts` cannot hide.
 
 ### Status
 
-- `planned`: an outline of what the page will cover. The page says it is not
-  written yet.
-- `draft`: written but still changing. The page says it may change.
+- `planned`: an outline of what the page will cover. The page opens with a
+  note that it is not written yet.
+- `draft`: written but still changing. The page opens with a note that it may
+  change.
 - `solid`: finished, shown to readers as "Written". The page has no note.
 
-In the contents, a key explains the three states: a hollow circle for
-planned, a half-filled circle for draft, and a filled circle for written.
-While every page has the same status, the contents says so in one sentence.
-Once statuses differ, each chapter and section shows its own circle, drafts
-are labeled "Draft", and planned titles are lighter. Each page shows its own
+While every page has the same status, the contents says so in one sentence
+and marks no rows. Once statuses differ, each chapter and section shows its
+own circle, with a key explaining them: a hollow circle for planned, a
+half-filled circle for draft, and a filled circle for written. Drafts are
+labeled "Draft", and planned titles are lighter. Each page shows its own
 status; a chapter's status says nothing about its sections.
 
 ## Writing

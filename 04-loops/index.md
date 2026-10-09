@@ -1,8 +1,5 @@
 ---
 title: Loops
+subtitle: One thing, without you
 status: planned
 ---
-
-## What this chapter will cover
-
-- One thing, without you

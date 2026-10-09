@@ -1,5 +1,6 @@
 ---
 title: Introduction
+subtitle: What it is, and why to own one
 status: planned
 ---
 

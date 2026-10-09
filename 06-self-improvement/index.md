@@ -1,8 +1,5 @@
 ---
 title: Self-improvement
+subtitle: The factory that improves the factory
 status: planned
 ---
-
-## What this chapter will cover
-
-- The factory that improves the factory
