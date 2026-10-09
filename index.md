@@ -1,4 +1,4 @@
 ---
-title: Software Factories
+title: A Comprehensive Guide to Software Factories
 subtitle: Everything I've learned about software factories
 ---

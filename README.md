@@ -5,6 +5,10 @@ This repository holds the text of the book published at
 with any text editor. The website turns these files into pages; nothing here
 needs HTML or a build step.
 
+The book is a work in progress, and contributions are welcome. Open an issue
+for a correction or an idea, or send a pull request that follows the layout
+below.
+
 ## How publishing works
 
 1. You push to `main`.
