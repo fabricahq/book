@@ -105,10 +105,11 @@ Any other field is an error, so a typo such as `stauts` cannot hide.
 - `solid`: finished, shown to readers as "Written". The page has no note.
 
 While every page has the same status, the contents says so in one sentence
-and marks no rows. Once statuses differ, each chapter and section shows its
-own circle, with a key explaining them: a hollow circle for planned, a
-half-filled circle for draft, and a filled circle for written. Drafts are
-labeled "Draft", and planned titles are lighter. Each page shows its own
+and marks no rows. Once statuses differ, each section shows its own circle,
+with a key explaining them: a hollow circle for planned, a half-filled circle
+for draft, and a filled circle for written. Hovering a circle names its status
+too. Drafts are labeled "Draft", and planned titles, chapters included, are
+lighter. Each page shows its own
 status; a chapter's status says nothing about its sections.
 
 ## Writing
