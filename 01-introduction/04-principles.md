@@ -24,3 +24,13 @@ Everything else, the agent should do. When you catch yourself doing something by
 The more an agent can do on its own, the less of you it needs, so push for as much autonomy as you can. But autonomy has a cost. An agent that can merge, deploy, or touch production can also break things there.
 
 So responsible autonomy starts with assessing the risk. What's the worst this agent could do with this permission? How likely is that, and how quickly could you undo it? Where a mistake is cheap and easy to reverse, let the agent run. Where it's expensive or permanent, keep yourself in the loop, or add [guardrails](../04-loops/03-guardrails-and-budgets.md) until it isn't.
+
+## Think of agents as employees or contractors
+
+This framing comes from Nada.
+
+Some agents are like employees. They've built up a body of knowledge about your work, and you have something like a relationship with them. They know what you've decided before, how you like things done, and what you meant last time.
+
+Other agents are like contractors. You hand them a full job spec and expect them to deliver against it. They don't need your history, because the spec carries everything they need.
+
+Each has its place. In the factory, we hire contractors: each slice goes out with a complete spec, and an agent delivers it. Planning is where we use employees, because working out what to build draws on everything an agent already knows about your work.
