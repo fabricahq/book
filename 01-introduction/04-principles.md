@@ -18,3 +18,9 @@ Introspection is you giving the agent feedback: what it got right, what it got w
 You are good at things an agent can't do for you: deciding what you want, setting goals and intentions, and giving feedback on whether the result is right. Spend yourself there.
 
 Everything else, the agent should do. When you catch yourself doing something by hand, ask: why can't the agent do this without me? Sometimes the answer is that it needs your judgment, and that's your job. More often, the answer is that it's missing a tool, a permission, or some context. That's a gap in the factory, and you can fix it.
+
+## Balance agent autonomy with risk
+
+The more an agent can do on its own, the less of you it needs, so push for as much autonomy as you can. But autonomy has a cost. An agent that can merge, deploy, or touch production can also break things there.
+
+So responsible autonomy starts with assessing the risk. What's the worst this agent could do with this permission? How likely is that, and how quickly could you undo it? Where a mistake is cheap and easy to reverse, let the agent run. Where it's expensive or permanent, keep yourself in the loop, or add [guardrails](../04-loops/03-guardrails-and-budgets.md) until it isn't.
