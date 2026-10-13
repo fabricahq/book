@@ -1,5 +1,5 @@
 ---
-title: Prototype
+title: Explore
 status: planned
 ---
 
