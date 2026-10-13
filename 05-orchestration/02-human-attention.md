@@ -39,7 +39,7 @@ Financial investors look for places to put their money where it will turn into m
 
 We software engineers are "mental energy investors." We decide where to allocate our finite mental energy. We spend it on focus and on focus token switches, and we hope to get _impact_ in return.
 
-A wise mental energy investor spends as much of their energy as possible driving impact, and as little as possible on switching fees. And like any good investor, they make decisions based on _insights_ about the market. The rest of this section covers the insights that matter most here: how to manage your review queue, how to batch your switches, and how to keep notifications from moving your focus token for you.
+A wise mental energy investor spends as much of their energy as possible driving impact, and as little as possible on switching fees. And like any good investor, they make decisions based on _insights_ about the market. The rest of this section covers the insights that matter most here: how to manage your review queue, how to batch your switches into review checkpoints, and how to keep notifications from moving your focus token for you.
 
 ## What this section will cover
 
