@@ -1,6 +1,6 @@
 ---
 title: Readying your codebase
-status: draft
+status: planned
 ---
 
 ## What this section will cover
