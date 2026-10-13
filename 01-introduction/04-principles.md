@@ -34,3 +34,11 @@ Some agents are like employees. They've built up a body of knowledge about your 
 Other agents are like contractors. You hand them a full job spec and expect them to deliver against it. They don't need your history, because the spec carries everything they need.
 
 Each has its place. In the factory, we hire contractors: each slice goes out with a complete spec, and an agent delivers it. Planning is where we use employees, because working out what to build draws on everything an agent already knows about your work.
+
+## Spend time on levers
+
+This principle comes from [Poteto](https://x.com/poteto), who calls it [Build the Lever](https://github.com/cursor/plugins/blob/main/pstack/skills/principle-build-the-lever/SKILL.md).
+
+When the factory hands you its output, you can spend your time reviewing it. Or you can spend your time making that review unnecessary: a script that checks the work, a test that proves it, a tool that does the job the same way every time. That tool is a lever.
+
+Building a lever takes longer than doing the review, sometimes dramatically longer. But you build it once, and it works on every run after that. Each lever frees up time you can spend building the next one, so the leverage compounds. Over time, that compounding is what makes a factory wildly productive.
