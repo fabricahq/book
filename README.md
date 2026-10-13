@@ -35,6 +35,15 @@ index.md                      the book's title, and its introduction as the body
   01-a-codebase-agents-can-work-in.md
   02-the-environment.md
   images/worktrees.png        images, anywhere in the book
+03-the-dev-lifecycle/
+  index.md
+  01-spark.md
+  02-shape/                   a phase: a group of sections in a chapter
+    index.md                  the phase's title and intro
+    01-explore.md             a section of the phase
+  03-deliver/
+    index.md
+    01-plan.md
 90-toolbox/                   an appendix: index.md says appendix: true
   index.md
 ```
@@ -43,34 +52,48 @@ index.md                      the book's title, and its introduction as the body
   `index.md`.
 - A chapter holds **sections**. Each section is one Markdown file in the
   chapter's folder.
+- A chapter can group some of its sections into **phases**. A phase is a
+  folder in the chapter holding its sections and an `index.md` with the
+  phase's title and intro, like a chapter's. The phase gets its own page, and
+  the contents lists it like a section, with its sections indented under it.
+  Phases hold sections, not other phases.
 - `index.md` at the top holds the book's title in its front matter and the
   book's introduction as its body. The introduction opens the book's page on
   the website, beside the cover, so keep it to a few sentences; it can have
   more than one paragraph.
 - Other folders, such as `images/`, can hold images and other files. They
-  cannot hold Markdown.
+  cannot hold Markdown, because a folder of Markdown inside a chapter is a
+  phase.
 
 ## Order and numbers
 
-Each chapter folder and section file name starts with a number and a hyphen,
-such as `02-foundations` or `03-plan.md`. The numbers set the order and nothing
-else.
+Each chapter folder, phase folder, and section file name starts with a number
+and a hyphen, such as `02-foundations`, `02-shape`, or `03-plan.md`. The numbers
+set the order and nothing else. A chapter's sections and phases share one order,
+so `01-spark.md` comes before `02-shape/`.
 
 Readers see numbers that come from that order:
 
 - Chapters are numbered 1, 2, 3, and so on.
-- Sections are numbered within their chapter: 2.1, 2.2, 2.3.
+- Sections are numbered within their chapter: 2.1, 2.2, 2.3. A phase is
+  numbered like a section, and its sections are numbered within it: phase 3.3
+  holds 3.3.1, 3.3.2, and so on.
 - Appendices are lettered A, B, C after the last chapter, with sections A.1,
   A.2.
 
 So you never type a number into a title. To move a section, rename its file:
 `05-merge.md` to `03-merge.md`. Everything renumbers. Gaps are fine, so
 `10-`, `20-`, `30-` leaves room to insert `15-` later. Two files with the same
-number in one folder are an error.
+number in one folder are an error, and so are a file and a phase folder with
+the same number.
 
-Page addresses use the name without its number, such as
-`fabricahq.com/book/foundations/the-environment/`, so links keep working when
-you reorder. Renaming the part after the number changes the address.
+Page addresses use the name without its number, and leave out any phase, such
+as `fabricahq.com/book/foundations/the-environment/` and
+`fabricahq.com/book/the-dev-lifecycle/explore/`. So links keep working when you
+reorder, or when you move a section into or out of a phase. A phase's own page
+sits beside its sections, at `fabricahq.com/book/the-dev-lifecycle/shape/`.
+Renaming the part after the number changes the address, and no two phases or
+sections in one chapter can share a name, even in different phases.
 
 Names use lowercase letters, digits, and hyphens.
 
@@ -90,7 +113,7 @@ The section's text starts here.
 | Field      | Where                   | Meaning                                                    |
 | ---------- | ----------------------- | ---------------------------------------------------------- |
 | `title`    | Every page              | The page's title. Required, unless the file starts with a `# Title` line, which then becomes the title. |
-| `status`   | Chapters and sections   | `planned`, `draft`, or `solid`. Leave it out for `solid`.  |
+| `status`   | Chapters, phases, and sections | `planned`, `draft`, or `solid`. Leave it out for `solid`.  |
 | `subtitle` | A chapter's `index.md`  | Optional. One line shown in italics under the chapter's title, in the contents and on the chapter's page. |
 | `appendix` | A chapter's `index.md`  | `true` makes the chapter an appendix. Appendices come after every chapter. |
 
@@ -124,9 +147,9 @@ Link to other pages with relative paths to their files, the way they work on
 GitHub:
 
 ```markdown
-See [Plan](../03-the-dev-lifecycle/02-plan.md) and its
-[checklist](../03-the-dev-lifecycle/02-plan.md#checklist).
-Link a whole chapter by its folder: [Foundations](../02-foundations/).
+See [Plan](../03-the-dev-lifecycle/03-deliver/01-plan.md) and its
+[checklist](../03-the-dev-lifecycle/03-deliver/01-plan.md#checklist).
+Link a whole chapter or phase by its folder: [Foundations](../02-foundations/).
 
 ![Three worktrees sharing one repository](images/worktrees.png)
 ```
