@@ -27,7 +27,7 @@ So responsible autonomy starts with assessing the risk. What's the worst this ag
 
 ## Think of agents as employees or contractors
 
-This framing comes from Nada.
+This framing comes from [Nadaa Taiyab](https://www.linkedin.com/in/nadaataiyab/).
 
 Some agents are like employees. They've built up a body of knowledge about your work, and you have something like a relationship with them. They know what you've decided before, how you like things done, and what you meant last time.
 
