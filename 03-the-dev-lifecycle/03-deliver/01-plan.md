@@ -5,4 +5,4 @@ status: planned
 
 ## What this section will cover
 
-- Plan
+- Planning one slice before an agent builds it
