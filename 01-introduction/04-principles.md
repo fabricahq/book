@@ -23,7 +23,7 @@ Everything else, the agent should do. When you catch yourself doing something by
 
 The more an agent can do on its own, the less of you it needs, so push for as much autonomy as you can. But autonomy has a cost. An agent that can merge, deploy, or touch production can also break things there.
 
-So responsible autonomy starts with assessing the risk. What's the worst this agent could do with this permission? How likely is that, and how quickly could you undo it? Where a mistake is cheap and easy to reverse, let the agent run. Where it's expensive or permanent, keep yourself in the loop, or add [guardrails](../04-loops/03-guardrails-and-budgets.md) until it isn't.
+So responsible autonomy starts with assessing the risk. What's the worst this agent could do with this permission? How likely is that, and how quickly could you undo it? Where a mistake is cheap and easy to reverse, let the agent run. Where it's expensive or permanent, keep yourself in the loop, or add [guardrails](../04-loops/03-guardrails-and-budgets.md) until it isn't. Running an agent in its own isolated [workspace](../02-foundations/03-the-environment.md) is often the cheapest way to make its mistakes easy to undo.
 
 ## Think of agents as employees or contractors
 
