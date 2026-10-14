@@ -191,7 +191,8 @@ These are never published, so you can keep notes beside the book:
 - Any file or folder whose name starts with `_`, such as `_notes.md` or
   `_drafts/`.
 - Hidden files and folders, whose names start with `.`.
-- `README.md` files, including this one.
+- Markdown files named in capitals, such as `README.md` (including this one),
+  `CONTEXT.md`, and `AGENTS.md`. These are documents about the repository.
 
 ## Preview while writing
 
