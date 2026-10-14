@@ -7,7 +7,10 @@ needs HTML or a build step.
 
 The book is a work in progress, and contributions are welcome. Open an issue
 for a correction or an idea, or send a pull request that follows the layout
-below.
+below. Every page on the website ends with a "Suggest an edit to this page"
+link, which opens the
+[Suggest an edit](https://github.com/fabricahq/book/issues/new?template=suggest-an-edit.yml) issue form with
+the page already filled in.
 
 ## How publishing works
 
