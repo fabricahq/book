@@ -7,3 +7,4 @@ status: planned
 
 - Technical validation: does it work, and is it built well
 - Product validation: does it do what you wanted
+- How much structural verification you need depends on how thorough the [plan](01-plan.md) was
