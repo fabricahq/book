@@ -3,15 +3,23 @@ title: The hierarchy of bottlenecks
 status: draft
 ---
 
-Hand a coding agent more work, and soon you're not writing code anymore. You're reading it, because nothing else tells you whether it's right. The agent isn't the slow part. You are.
+In 1984, Eliyahu Goldratt published _The Goal_, a novel about running a factory. Its hero, Alex Rogo, manages a manufacturing plant that's losing money, and he has three months to turn it around or watch it close. Along the way, he learns the idea this section is built on.
 
-That's a bottleneck, and it won't be your last. Knowing the order they come in tells you what to work on now.
+## Herbie and the scout hike
 
-## One bottleneck at a time
+The idea clicks for Alex on a weekend hike. He volunteers to lead his son's scout troop through the woods, lines the boys up single file, and sets off. Before long, the line has stretched far down the trail. The fastest kids at the front keep pulling ahead, gaps open up behind them, and the troop keeps falling behind schedule.
 
-In _The Goal_, Eliyahu Goldratt describes a scout troop that can only hike as fast as Herbie, its slowest kid. Hurrying everyone else just stretches out the line. His Theory of Constraints says every system works this way: one constraint limits the whole, improving anything else is wasted effort, and relieving it moves the limit somewhere new.
+The problem is Herbie, the slowest hiker. The troop can't reach camp until Herbie does, so every minute the kids at the front gain is wasted. They just stop and wait for him.
 
-A software factory is no different.
+So Alex changes the plan. He moves Herbie to the front of the line, where no one can outpace him. Then he opens Herbie's pack, finds it full of heavy things, and splits them among the other boys. Herbie speeds up, and so does the whole troop.
+
+## Only the constraint matters
+
+Goldratt called this the Theory of Constraints. In any system, one constraint sets the pace for the whole. Speed up the constraint, and everything speeds up. Speed up anything else, and nothing changes, just like the kids at the front who reached each stop early and waited for Herbie.
+
+That's the key point, and it's easy to miss: time spent on anything other than the constraint is wasted, however much it feels like progress. And once you relieve the constraint, a new one takes its place.
+
+A software factory works the same way. At any moment, one thing limits how much good work it produces. The rest of this section names those constraints, in the order you'll usually meet them.
 
 ## The hierarchy
 
