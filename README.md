@@ -15,15 +15,14 @@ the page already filled in.
 ## How publishing works
 
 1. You push to `main`.
-2. A workflow in this repository asks
-   [fabricahq/website](https://github.com/fabricahq/website) to sync the book.
+2. A workflow in this repository asks the website's repository,
+   fabricahq/website, to sync the book. That repository is private.
 3. The website copies these files, checks them, and checks the whole site.
 4. If every check passes, the change lands on the website's `main` and
    publishes a few minutes later. If a check fails, nothing publishes. The
    failed "Sync book" run in the website's Actions tab lists each problem with
-   the file to fix.
+   the file to fix; seeing it takes access to the website's repository.
 
-The website repository is public, so its sync commits and logs are public too.
 Everything you push to `main` here will be on the website.
 
 ## Layout
@@ -197,11 +196,12 @@ These are never published, so you can keep notes beside the book:
 ## Preview while writing
 
 Run the website locally and read the book from this checkout. Pages update as
-you save.
+you save. This takes access to the website's repository, which is private.
+Without it, GitHub's preview of each Markdown file, diagrams included, is a
+close match.
 
-1. Check out [fabricahq/website](https://github.com/fabricahq/website) next to
-   this repository, so the two folders are siblings, and install its tools as
-   its README describes.
+1. Check out fabricahq/website next to this repository, so the two folders
+   are siblings, and install its tools as its README describes.
 2. In the website checkout, run:
 
    ```sh
