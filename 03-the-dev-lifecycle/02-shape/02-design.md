@@ -1,13 +1,7 @@
 ---
 title: Design
-status: planned
+status: draft
 ---
-
-## What this section will cover
-
-- Choosing the tech stack and the high-level architecture
-- How what the prototype taught you shapes the design
-- When to skip it, such as when the work fits an existing system
 
 ## Get in sync with your agent
 
@@ -19,3 +13,9 @@ The trick is to flip who asks the questions. Instead of writing a long prompt an
 - [`/explore-unknowns`](https://github.com/dzhng/skills/blob/main/skills/engineering/explore-unknowns/SKILL.md), from [David Zhang](https://github.com/dzhng), walks you through what you know, what you don't, and what neither of you has thought of yet, until the unknowns are mapped.
 
 Other skills do the same job, and the pattern matters more than any one of them: have the agent ask before it builds. Do it before you settle the design, so the design starts from a shared picture of what you want.
+
+## What this section will cover
+
+- Choosing the tech stack and the high-level architecture
+- How what the prototype taught you shapes the design
+- When to skip it, such as when the work fits an existing system
