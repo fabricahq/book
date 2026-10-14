@@ -161,6 +161,26 @@ Link a whole chapter or phase by its folder: [Foundations](../02-foundations/).
 - A link to a file that does not exist is an error. Links to other websites
   start with `https://`.
 
+### Diagrams
+
+Draw a diagram with a [Mermaid](https://mermaid.js.org/) code block. GitHub
+shows it as a diagram, and the website draws it in the site's colors, in light
+and dark:
+
+````markdown
+```mermaid
+flowchart LR
+  accTitle: Where an agent runs
+  accDescr: From least to most isolated: your machine, a worktree, a container.
+  machine["Your machine"] --> worktree["A worktree"] --> container["A container"]
+```
+````
+
+- `accTitle` names the diagram for screen readers, the way alt text names an
+  image. It is required. `accDescr` adds an optional longer description.
+- Flowcharts, state, sequence, class, and ER diagrams, and XY charts, are
+  supported. A diagram that cannot be drawn is an error.
+
 ### Left out of the book
 
 These are never published, so you can keep notes beside the book:
