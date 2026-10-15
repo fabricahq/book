@@ -103,17 +103,39 @@ const trailerValues = (trailers, key) =>
 /** The commit `revision` names in `book`, or "" when it names none, such as HEAD before the first commit. */
 const commitOf = (book, revision) => run(book, ["rev-parse", "--quiet", "--verify", "--end-of-options", `${revision}^{commit}`]).stdout.trim();
 
+/** The parent and command line of process `pid`, or null when ps cannot say. */
+function processInfo(pid) {
+  const result = spawnSync("ps", ["-ww", "-o", "ppid=", "-o", "args=", "-p", String(pid)], { encoding: "utf8" });
+  const match = !result.error && result.status === 0 && result.stdout.trim().match(/^(\d+)\s+([\s\S]*)$/);
+  return match ? { parent: Number(match[1]), args: match[2].trim().split(/\s+/) } : null;
+}
+
+/** True for `arg` when it is --amend, or a prefix of it that git accepts in its place, such as --amen. */
+const isAmend = (arg) => arg.length >= 4 && "--amend".startsWith(arg);
+
 /**
- * True when the commit being made amends HEAD. git gives a hook the author of the commit it is
- * making, and an amend keeps HEAD's author and author date, where a new commit is dated now. A new
- * commit by the same author in the same second as HEAD looks the same; the check on pushed commits
- * catches anything that lets through. An amend with --reset-author looks like a new commit.
+ * True when the commit being made amends HEAD: when the git command that runs the hook was given
+ * --amend, directly or through an alias such as "ca = commit --amend". git tells a hook nothing
+ * about an amend, so the check reads the command line of the nearest git process above it. Where it
+ * cannot, such as without ps, the commit counts as new, and an amend may need its Update: line.
  */
 function amendsHead(book) {
-  const date = process.env.GIT_AUTHOR_DATE?.match(/^@(\d+) [+-]\d{4}$/)?.[1];
-  if (!date || !commitOf(book, "HEAD")) return false;
-  const [at, name, email] = git(book, ["log", "-1", "--format=%at%x00%an%x00%ae", "HEAD"]).trim().split("\0");
-  return at === date && name === process.env.GIT_AUTHOR_NAME && email === process.env.GIT_AUTHOR_EMAIL;
+  let pid = process.ppid;
+  for (let depth = 0; pid > 1 && depth < 10; depth++) {
+    const info = processInfo(pid);
+    if (!info) return false;
+    const [command, ...args] = info.args;
+    if (basename(command) === "git") {
+      if (args.some(isAmend)) return true;
+      // The subcommand comes after git's own options, of which -c and -C take a value.
+      const subcommand = args.find((arg, i) => !arg.startsWith("-") && args[i - 1] !== "-c" && args[i - 1] !== "-C");
+      if (!subcommand || subcommand === "commit") return false;
+      const alias = run(book, ["config", "--get", `alias.${subcommand}`]).stdout;
+      return alias.split(/\s+/).some(isAmend);
+    }
+    pid = info.parent;
+  }
+  return false;
 }
 
 /** The commit being made in `book`: its problems, or null when it is not checked. */
