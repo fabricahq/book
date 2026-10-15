@@ -21,10 +21,13 @@ See [LICENSE](LICENSE) for the full terms.
 
 Noncommercial sharing and adaptation are welcome with attribution and the
 required notices. Shared adaptations must follow the license's ShareAlike
-terms. Selling copies or other commercial reuse requires separate permission,
-unless a copyright exception applies. See the [licensing
-FAQ](92-faq/index.md#what-license-does-the-book-use) for examples and how to
-request permission.
+terms. Fabrica also grants [additional permission for commercial copying of
+diagrams and excerpts](92-faq/index.md#can-companies-copy-diagrams-or-quote-paragraphs-and-pages),
+including use in company documentation, presentations, and paid courses.
+Selling the whole book or commercially distributing an adapted edition still
+requires separate permission, unless a copyright exception applies. See the
+[licensing FAQ](92-faq/index.md#what-license-does-the-book-use) for the terms
+and how to request permission.
 
 ## How publishing works
 
