@@ -1,0 +1,12 @@
+# The book's git hooks, run by prek (https://github.com/j178/prek). Install
+# them in your checkout with:
+#
+#   prek install --hook-type commit-msg
+repos:
+  - repo: local
+    hooks:
+      - id: name-the-update
+        name: Name the update this commit belongs to
+        language: system
+        entry: node .github/commit-check/commit-check.mjs --message
+        stages: [commit-msg]
