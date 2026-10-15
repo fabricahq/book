@@ -9,7 +9,7 @@ Without verification, you find out by checking yourself, which doesn't scale pas
 
 When the agent can check its own work, it can loop for much longer without your input: run a check, read the result, fix what failed, repeat. It comes back to you only when the work passes, not every time something breaks.
 
-Verify asks "did the agent build it right?" [Validate](04-validate.md) asks "did it build the right thing?"
+Verify and [Validate](04-validate.md) both check whether the implementation is correct. The difference is who checks. In Verify, the implementing agent checks itself. In Validate, something other than that agent checks it, such as you or a fresh reviewer agent.
 
 Most of these techniques come from Addy Osmani's [Agentic verification](https://addyo.substack.com/p/agentic-verification) and Lauren Tan's (`@poteto`) [The Complete Guide to pstack, Part 1](https://x.com/poteto/status/2094457600259842065).
 
@@ -43,4 +43,4 @@ Tan argues the agent should be able to run, use, and debug your app as you would
 
 ## Check the checks
 
-An agent can write tests that pass and prove nothing. Ask whether each test would fail if the code were plausibly wrong. A fresh agent, without the builder's assumptions, makes a good reviewer.
+An agent can write tests that pass and prove nothing. Have it ask of each test: would this fail if the code were plausibly wrong? A check that needs someone without the builder's assumptions belongs in [Validate](04-validate.md).
