@@ -20,3 +20,11 @@ status: planned
 - For end-to-end tests, show me the spec
 - For standard unit tests, just show me the test cases
 - All of it nicely visualized
+
+### Design tree visualizer
+
+- Matt Pocock's [Grill Me](https://github.com/mattpocock/skills/tree/main/skills/productivity/grill-me) skill is awesome
+- But you don't know how many total questions there are, and it's hard to get a summary of everything that was asked
+- It does generate a spec, so you could review that
+- But it might be more useful to have a visual tree where the most consequential decisions are seen at the top
+- Then you can keep expanding it to get a feel for whether those are worth reviewing, or whether just the big stuff at the top is good enough
