@@ -1,0 +1,73 @@
+# Check that every commit names the update it belongs to, or says it belongs
+# to none, with .github/commit-check/commit-check.mjs, after running that
+# check's tests. A commit pushed to main that breaks the rule fails this
+# workflow, so it gets noticed; it stays in the history as it is. On a pull
+# request, such commits are only noted: whoever merges it names the update
+# when squash-merging.
+
+name: Check commits
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v7
+        with:
+          # The whole history, so every commit to check is here.
+          fetch-depth: 0
+          persist-credentials: false
+
+      - uses: actions/setup-node@v7
+        with:
+          node-version: 24
+
+      - name: Test the check
+        run: node --test '.github/commit-check/*.test.mjs'
+
+      - name: Check each commit
+        env:
+          EVENT: ${{ github.event_name }}
+          BEFORE: ${{ github.event.before }}
+          AFTER: ${{ github.sha }}
+          BASE: ${{ github.event.pull_request.base.sha }}
+          HEAD: ${{ github.event.pull_request.head.sha }}
+        run: |
+          if [ "$EVENT" = pull_request ]; then
+            range="$BASE..$HEAD"
+          elif git cat-file -e "$BEFORE^{commit}" 2>/dev/null ||
+            git fetch --quiet --no-tags origin "$BEFORE" 2>/dev/null; then
+            # A force push replaces commits the checkout no longer has, so
+            # fetch them to check every commit since.
+            range="$BEFORE..$AFTER"
+          else
+            # A new branch, or a force push past commits GitHub no longer
+            # has: the commits the push lists, oldest first.
+            first=$(jq -r '.commits[0].id // empty' "$GITHUB_EVENT_PATH")
+            if [ -z "$first" ]; then
+              echo "The push adds no commits to check."
+              exit 0
+            elif git cat-file -e "$first^" 2>/dev/null; then
+              range="$first^..$AFTER"
+            else
+              range="$AFTER"
+            fi
+          fi
+          status=0
+          node .github/commit-check/commit-check.mjs "$range" || status=$?
+          if [ "$status" = 1 ] && [ "$EVENT" = pull_request ]; then
+            echo "::notice title=Commits without an update::Some commits don't name their update. That's fine in a pull request: whoever merges it names the update when squash-merging. This step's log lists the updates to choose from."
+            exit 0
+          fi
+          if [ "$status" = 1 ]; then
+            echo "::error title=Commits without an update::Some commits pushed to main don't name their update, so the changelog leaves them out. This step's log says which. Is the commit-msg hook installed? See the README."
+          fi
+          exit "$status"
