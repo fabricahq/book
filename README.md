@@ -138,13 +138,13 @@ status: draft
 The section's text starts here.
 ```
 
-| Field      | Where                   | Meaning                                                    |
-| ---------- | ----------------------- | ---------------------------------------------------------- |
-| `title`    | Every page, and every changelog entry | A page's title: required, unless the file starts with a `# Title` line, which then becomes the title. An entry's headline: required. |
-| `status`   | Chapters, phases, and sections | `planned`, `draft`, or `solid`. Leave it out for `solid`.  |
-| `subtitle` | A chapter's `index.md`  | Optional. One line shown in italics under the chapter's title, in the contents and on the chapter's page. |
-| `appendix` | A chapter's `index.md`  | `true` makes the chapter an appendix. Appendices come after every chapter. |
-| `kind`     | A changelog entry       | Required: `new`, `major-update`, `minor-update`, or `removed`. An entry sets only `kind` and `title`. See [the changelog](#the-changelog). |
+| Field      | Where                                 | Meaning                                                                                                                                    |
+| ---------- | ------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------ |
+| `title`    | Every page, and every changelog entry | A page's title: required, unless the file starts with a `# Title` line, which then becomes the title. An entry's headline: required.       |
+| `status`   | Chapters, phases, and sections        | `planned`, `draft`, or `solid`. Leave it out for `solid`.                                                                                  |
+| `subtitle` | A chapter's `index.md`                | Optional. One line shown in italics under the chapter's title, in the contents and on the chapter's page.                                  |
+| `appendix` | A chapter's `index.md`                | `true` makes the chapter an appendix. Appendices come after every chapter.                                                                 |
+| `kind`     | A changelog entry                     | Required: `new`, `major-update`, `minor-update`, or `removed`. An entry sets only `kind` and `title`. See [the changelog](#the-changelog). |
 
 Any other field is an error, so a typo such as `stauts` cannot hide.
 
@@ -175,7 +175,9 @@ status; a chapter's status says nothing about its sections.
 Each chapter, phase, and section page shows the day it was last updated: the
 day of the last commit that changed its file, in that commit's time zone. You
 never type a date. Renaming or moving a file changes it too, so reordering
-updates the dates of the pages that moved.
+updates the dates of the pages that moved. When an update in the changelog
+links to the page, the date links to the page's own list of updates;
+otherwise, to the file's commits on GitHub.
 
 ## Writing
 
@@ -296,27 +298,33 @@ title: Updated The environment to start from where agents run
   way pages link to each other: relative to the entry, as in the example.
   Those links are the update's pages.
 - The changelog sets each item that starts with a page link like the contents:
-  the page's chapter in small type, then the page's number and title as the
-  link, then your note on a line of its own. The page's current number and
-  title replace your link text, so they stay right as the book changes.
+  the page's number and title as the link, then your note on a line of its
+  own, with pages grouped under a small header naming their chapter or
+  appendix. A chapter's own page appears under its header as "Overview". The
+  page's current number and title replace your link text, so they stay right
+  as the book changes.
 
 ### Kinds
 
 An update has one kind, its most significant. Change it as the update grows,
 such as from `minor-update` to `major-update`.
 
-| Kind           | On the changelog      | Use it when                                                               |
-| -------------- | --------------------- | ------------------------------------------------------------------------- |
-| `new`          | Listed, marked "New"  | You add a page or chapter.                                                |
-| `major-update` | Listed                | The guidance changes enough that a reader might think differently.        |
-| `minor-update` | Not shown             | A page keeps its core message and says it better, or moves or is renamed. |
-| `removed`      | Listed                | You take a page out.                                                      |
+| Kind           | On the changelog     | Use it when                                                               |
+| -------------- | -------------------- | ------------------------------------------------------------------------- |
+| `new`          | Listed, marked "New" | You add a page or chapter.                                                |
+| `major-update` | Listed               | The guidance changes enough that a reader might think differently.        |
+| `minor-update` | Not shown            | A page keeps its core message and says it better, or moves or is renamed. |
+| `removed`      | Listed               | You take a page out.                                                      |
 
 The changelog lists the 20 latest updates that are not minor, newest first,
 each with its date, its title, and its summary. Only new pages carry a badge,
 "New" under the date, so they stand out. Readers can filter the changelog to new
 pages, updates, or removals; each filter is its own page, such as
-`/book/changes/updates/`. The note on the book's home page links to the
+`/book/changes/updates/`. Each update lists its commits, collapsed under their
+count, each linking to the commit on GitHub. Every page has its own list of the
+updates that link to it, at `/book/changes/page/` followed by the page's
+address, such as `/book/changes/page/introduction/principles/`; when an
+update links to the page, the page's updated date links there. The note on the book's home page links to the
 changelog. Minor updates are recorded but never shown, so they never bury the
 changes that matter. Until you commit the first entry, the website has no
 changelog page.
