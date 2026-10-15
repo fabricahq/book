@@ -1,0 +1,38 @@
+# Copy this file to fabricahq/book as .github/workflows/notify-website.yml.
+#
+# After every push to main, ask fabricahq/website to sync and publish the book.
+# The website's sync workflow does the checking and publishing; this only
+# sends the signal. Setup: docs/book-repo/SETUP.md in fabricahq/website.
+
+name: Publish to fabricahq.com
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions: {}
+
+jobs:
+  notify:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - name: Create a token that can notify the website
+        id: app
+        uses: actions/create-github-app-token@v3
+        with:
+          client-id: ${{ vars.BOOK_SYNC_APP_CLIENT_ID }}
+          private-key: ${{ secrets.BOOK_SYNC_APP_PRIVATE_KEY }}
+          owner: fabricahq
+          repositories: website
+          permission-contents: write
+
+      - name: Ask the website to sync the book
+        env:
+          GH_TOKEN: ${{ steps.app.outputs.token }}
+        run: |
+          gh api repos/fabricahq/website/dispatches \
+            -f event_type=book-updated \
+            -f "client_payload[sha]=$GITHUB_SHA"
+          echo "::notice::Asked fabricahq/website to sync ${GITHUB_SHA:0:7}. Follow it at https://github.com/fabricahq/website/actions/workflows/sync-book.yml"
