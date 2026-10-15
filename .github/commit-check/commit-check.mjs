@@ -7,6 +7,11 @@
  *   node .github/commit-check/commit-check.mjs [--book <dir>] --message <file>
  *       The commit being made: its staged changes, and the message in <file>. The commit-msg
  *       hook in .pre-commit-config.yaml runs this.
+ *   node .github/commit-check/commit-check.mjs [--book <dir>] --prepare <file> [<source> [<commit>]]
+ *       Notes whether the commit being made amends HEAD, from what git tells the
+ *       prepare-commit-msg hook, so the check counts the changes the amended commit already had.
+ *       prek passes the source and commit in PRE_COMMIT_COMMIT_MSG_SOURCE and
+ *       PRE_COMMIT_COMMIT_OBJECT_NAME instead.
  *   node .github/commit-check/commit-check.mjs [--book <dir>] <revision>...
  *       Commits already made, as git log selects them, such as origin/main..HEAD or <sha>^!.
  *       .github/workflows/check-commits.yml runs this.
@@ -20,7 +25,7 @@
  */
 import { spawnSync } from "node:child_process";
 import { existsSync } from "node:fs";
-import { readFile } from "node:fs/promises";
+import { readFile, rm, writeFile } from "node:fs/promises";
 import { basename, join, resolve } from "node:path";
 import { parseArgs } from "node:util";
 
@@ -103,39 +108,28 @@ const trailerValues = (trailers, key) =>
 /** The commit `revision` names in `book`, or "" when it names none, such as HEAD before the first commit. */
 const commitOf = (book, revision) => run(book, ["rev-parse", "--quiet", "--verify", "--end-of-options", `${revision}^{commit}`]).stdout.trim();
 
-/** The parent and command line of process `pid`, or null when ps cannot say. */
-function processInfo(pid) {
-  const result = spawnSync("ps", ["-ww", "-o", "ppid=", "-o", "args=", "-p", String(pid)], { encoding: "utf8" });
-  const match = !result.error && result.status === 0 && result.stdout.trim().match(/^(\d+)\s+([\s\S]*)$/);
-  return match ? { parent: Number(match[1]), args: match[2].trim().split(/\s+/) } : null;
-}
-
-/** True for `arg` when it is --amend, or a prefix of it that git accepts in its place, such as --amen. */
-const isAmend = (arg) => arg.length >= 4 && "--amend".startsWith(arg);
+/** The file in which the prepare-commit-msg hook notes the commit that the commit being made amends. */
+const amendNote = (book) => resolve(book, git(book, ["rev-parse", "--git-path", "commit-check-amends"]).trim());
 
 /**
- * True when the commit being made amends HEAD: when the git command that runs the hook was given
- * --amend, directly or through an alias such as "ca = commit --amend". git tells a hook nothing
- * about an amend, so the check reads the command line of the nearest git process above it. Where it
- * cannot, such as without ps, the commit counts as new, and an amend may need its Update: line.
+ * Note whether the commit being made amends HEAD. git tells the prepare-commit-msg hook the source
+ * "commit" and HEAD when amending with the message in an editor or with --no-edit, and the source
+ * "message" when amending with -m or -F, which is then checked as a new commit. A new commit that
+ * reuses HEAD's message with -C HEAD looks like an amend; the check on pushed commits catches
+ * anything that lets through. Every commit runs this hook, so a note never outlives its commit.
  */
-function amendsHead(book) {
-  let pid = process.ppid;
-  for (let depth = 0; pid > 1 && depth < 10; depth++) {
-    const info = processInfo(pid);
-    if (!info) return false;
-    const [command, ...args] = info.args;
-    if (basename(command) === "git") {
-      if (args.some(isAmend)) return true;
-      // The subcommand comes after git's own options, of which -c and -C take a value.
-      const subcommand = args.find((arg, i) => !arg.startsWith("-") && args[i - 1] !== "-c" && args[i - 1] !== "-C");
-      if (!subcommand || subcommand === "commit") return false;
-      const alias = run(book, ["config", "--get", `alias.${subcommand}`]).stdout;
-      return alias.split(/\s+/).some(isAmend);
-    }
-    pid = info.parent;
-  }
-  return false;
+async function prepare(book, source = process.env.PRE_COMMIT_COMMIT_MSG_SOURCE, commit = process.env.PRE_COMMIT_COMMIT_OBJECT_NAME) {
+  const head = commitOf(book, "HEAD");
+  if (source === "commit" && head && commit && commitOf(book, commit) === head) await writeFile(amendNote(book), `${head}\n`);
+  else await rm(amendNote(book), { force: true });
+}
+
+/** True when the prepare-commit-msg hook noted that the commit being made amends HEAD. */
+async function amendsHead(book) {
+  const head = commitOf(book, "HEAD");
+  const noted = (await readFile(amendNote(book), "utf8").catch(() => "")).trim();
+  await rm(amendNote(book), { force: true });
+  return Boolean(head) && noted === head;
 }
 
 /** The commit being made in `book`: its problems, or null when it is not checked. */
@@ -143,7 +137,7 @@ async function checkStaged(book, messageFile) {
   if (run(book, ["rev-parse", "--quiet", "--verify", "MERGE_HEAD"]).status === 0) return null;
   // An amended commit replaces HEAD, so its changes are those since HEAD's parent, or since nothing
   // when HEAD is the first commit.
-  const base = amendsHead(book) ? [commitOf(book, "HEAD^") || git(book, ["hash-object", "-t", "tree", "--stdin"], "").trim()] : [];
+  const base = (await amendsHead(book)) ? [commitOf(book, "HEAD^") || git(book, ["hash-object", "-t", "tree", "--stdin"], "").trim()] : [];
   const entries = new Set(entriesIn(git(book, ["ls-files", "-z", "--", `${CHANGES_DIR}/`])));
   const edited = git(book, ["diff", "--cached", "--name-only", "--no-renames", "-z", ...base]).split("\0").filter(entryAt);
   if (!entries.size && !edited.length) return null;
@@ -242,20 +236,25 @@ function guide(recent) {
   ].join("\n");
 }
 
-const USAGE = "usage: node .github/commit-check/commit-check.mjs [--book <dir>] (--message <file> | <revision>...)";
+const USAGE = "usage: node .github/commit-check/commit-check.mjs [--book <dir>] (--message <file> | --prepare <file> [<source> [<commit>]] | <revision>...)";
 
 async function main(args) {
   let parsed;
   try {
-    parsed = parseArgs({ args, options: { book: { type: "string" }, message: { type: "string" } }, allowPositionals: true });
+    parsed = parseArgs({ args, options: { book: { type: "string" }, message: { type: "string" }, prepare: { type: "string" } }, allowPositionals: true });
   } catch (error) {
     throw new CheckError(`${error.message}\n${USAGE}`);
   }
   const { values, positionals } = parsed;
+  const book = resolve(values.book ?? ".");
+  if (values.prepare !== undefined) {
+    if (values.message !== undefined || positionals.length > 2) throw new CheckError(USAGE);
+    await prepare(book, ...positionals);
+    return 0;
+  }
   if (Boolean(values.message) === Boolean(positionals.length)) throw new CheckError(USAGE);
   const unsafe = positionals.find((revision) => revision.startsWith("-"));
   if (unsafe) throw new CheckError(`"${unsafe}" is not a revision\n${USAGE}`);
-  const book = resolve(values.book ?? ".");
   let lines;
   if (values.message) {
     const problems = await checkStaged(book, resolve(values.message));

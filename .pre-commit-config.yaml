@@ -1,10 +1,16 @@
 # The book's git hooks, run by prek (https://github.com/j178/prek). Install
 # them in your checkout with:
 #
-#   prek install --hook-type commit-msg
+#   prek install
+default_install_hook_types: [prepare-commit-msg, commit-msg]
 repos:
   - repo: local
     hooks:
+      - id: note-amends
+        name: Note whether this commit amends the last one
+        language: system
+        entry: node .github/commit-check/commit-check.mjs --prepare
+        stages: [prepare-commit-msg]
       - id: name-the-update
         name: Name the update this commit belongs to
         language: system

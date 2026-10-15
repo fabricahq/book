@@ -91,8 +91,8 @@ async function withCheckout({ book = BOOK, commits = [] }, use) {
   }
 }
 
-/** Run the check in `dir` with `args`, as the hook and CI do. */
-const check = (dir, args) => spawnSync(process.execPath, [CHECK, ...args], { cwd: dir, encoding: "utf8" });
+/** Run the check in `dir` with `args`, and `env` added to its environment, as the hooks and CI do. */
+const check = (dir, args, env = {}) => spawnSync(process.execPath, [CHECK, ...args], { cwd: dir, encoding: "utf8", env: { ...process.env, ...env } });
 
 /** Check the commit being made in `dir`, staging `files` first, with `message` as its message. */
 async function checkStaged(dir, files, message) {
@@ -102,15 +102,17 @@ async function checkStaged(dir, files, message) {
 }
 
 /**
- * Install the check as `dir`'s commit-msg hook, and return a function that runs git there with
- * `args`, after `commit` unless `command` names another, such as an alias.
+ * Install the check as `dir`'s prepare-commit-msg and commit-msg hooks, as .pre-commit-config.yaml
+ * does, and return a function that runs git commit there with `args`, editing messages with no
+ * editor.
  */
 async function withHook(dir) {
-  const hook = join(dir, ".git/hooks/commit-msg");
-  await writeFile(hook, `#!/bin/sh\nexec "${process.execPath}" "${CHECK}" --message "$1"\n`);
-  await chmod(hook, 0o755);
-  return (args, command = "commit") =>
-    spawnSync("git", ["-C", dir, "-c", "user.name=A", "-c", "user.email=a@example.com", command, "--quiet", "--no-gpg-sign", ...args], { encoding: "utf8" });
+  for (const [hook, mode] of [["prepare-commit-msg", "--prepare"], ["commit-msg", "--message"]]) {
+    await writeFile(join(dir, ".git/hooks", hook), `#!/bin/sh\nexec "${process.execPath}" "${CHECK}" ${mode} "$@"\n`);
+    await chmod(join(dir, ".git/hooks", hook), 0o755);
+  }
+  return (args) =>
+    spawnSync("git", ["-C", dir, "-c", "user.name=A", "-c", "user.email=a@example.com", "-c", "core.editor=true", "commit", "--quiet", "--no-gpg-sign", ...args], { encoding: "utf8" });
 }
 
 /** The lines that say what is wrong: everything before the guide. */
@@ -249,25 +251,34 @@ test("as the commit-msg hook, the check sees exactly what git commit is about to
   });
 });
 
-test("amending a commit counts the changes it already had", async () => {
+test("amending a commit counts the changes it already had, unless it gives the commit a new message", async () => {
   await withCheckout({}, async (dir) => {
     const commit = await withHook(dir);
-    assert.equal(commit(["--amend", "--message", "Start the book, its changelog included"]).status, 0, "the first commit, which added every entry");
+    assert.equal(commit(["--amend", "--no-edit"]).status, 0, "the first commit, which added every entry");
     await stage(dir, { "changes/plan-wording.md": entry("Reworded the plan", "Clearer still.", "minor-update") });
     assert.equal(commit(["--message", "Reword the plan update"]).status, 0);
-    assert.equal(commit(["--amend", "--message", "Reword the plan update, more clearly"]).status, 0, "a new message for a commit that edited an entry");
     await write(dir, pageEdit());
-    assert.equal(commit(["--all", "--amend", "--no-edit"]).status, 0, "a change added to it");
+    assert.equal(commit(["--all", "--amend", "--no-edit"]).status, 0, "a change added to a commit that edited an entry");
+    assert.equal(commit(["--amend"]).status, 0, "its message edited in the editor");
+    // With -m, git tells the hook only that the message was given, as for a new commit.
+    const reworded = commit(["--amend", "--message", "Reword the plan update, more clearly"]);
+    assert.match(reworded.stderr, /^This commit names no update\.$/m, "a new message with -m names the update");
+    assert.equal(commit(["--amend", "--message", "Reword the plan update, more clearly\n\nUpdate: plan-wording"]).status, 0);
     await write(dir, pageEdit("Even more."));
-    assert.match(commit(["--all", "--message", "Say more"]).stderr, /^This commit names no update\.$/m, "a new commit, even in the same second by the same author, is not an amend");
+    assert.match(commit(["--all", "--message", "Explain --amend"]).stderr, /^This commit names no update\.$/m, "a new commit is not an amend, whatever its message says");
     assert.equal(commit(["--all", "--message", "Say more\n\nUpdate: plan-wording"]).status, 0);
-    assert.match(commit(["--amend", "--message", "Say more"]).stderr, /^This commit names no update\.$/m, "an amended commit that edited no entry still names its update");
-    // An alias for amending, and an abbreviation git accepts, are amends too.
-    await stage(dir, { "changes/first-draft.md": entry("Published the first draft of the book", "Drafted.") });
-    assert.equal(commit(["--message", "Say what the draft covers"]).status, 0);
-    git(dir, ["config", "alias.reword", "commit --amend"]);
-    assert.equal(commit(["--message", "Say what the first draft covers"], "reword").status, 0);
-    assert.equal(commit(["--amen", "--message", "Say what the first draft covers, briefly"]).status, 0);
+  });
+});
+
+test("prek's hooks note an amend from the source and commit it passes in the environment", async () => {
+  await withCheckout({ commits: [{ date: "2026-10-01T09:00:00Z", message: "Reword the plan update", files: { "changes/plan-wording.md": entry("Reworded the plan", "Clearer still.", "minor-update") } }] }, async (dir) => {
+    await stage(dir, pageEdit());
+    await writeFile(join(dir, ".git/COMMIT_EDITMSG"), "Reword the plan update\n");
+    const amend = { PRE_COMMIT_COMMIT_MSG_SOURCE: "commit", PRE_COMMIT_COMMIT_OBJECT_NAME: "HEAD" };
+    assert.equal(check(dir, ["--prepare", ".git/COMMIT_EDITMSG"], amend).status, 0);
+    assert.equal(check(dir, ["--message", ".git/COMMIT_EDITMSG"]).status, 0, "the amended commit edited an entry");
+    assert.equal(check(dir, ["--prepare", ".git/COMMIT_EDITMSG"], { PRE_COMMIT_COMMIT_MSG_SOURCE: "message" }).status, 0);
+    assert.equal(check(dir, ["--message", ".git/COMMIT_EDITMSG"]).status, 1, "a new commit edits only the page");
   });
 });
 
@@ -321,7 +332,7 @@ test("commits already made are not checked before the changelog exists, nor when
 
 test("the check explains how to call it, and refuses anything but revisions to check", async () => {
   await withCheckout({}, async (dir) => {
-    for (const args of [[], ["--message", "x", "HEAD"], ["--unknown"], ["--", "--all"], ["no-such-revision"]]) {
+    for (const args of [[], ["--message", "x", "HEAD"], ["--prepare", "x", "--message", "y"], ["--prepare", "x", "commit", "HEAD", "more"], ["--unknown"], ["--", "--all"], ["no-such-revision"]]) {
       const { status, stderr } = check(dir, args);
       assert.equal(status, 2, `${args.join(" ")}: ${stderr}`);
     }

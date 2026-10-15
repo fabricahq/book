@@ -363,8 +363,13 @@ recently. It needs only Node. Install it with
 [prek](https://github.com/j178/prek):
 
 ```sh
-prek install --hook-type commit-msg
+prek install
 ```
+
+Amending a commit keeps the changes it already had, so amending one that
+edited an entry needs no `Update:` line, unless you give it a new message
+with `-m`: git doesn't tell the hook that's an amend, so name the update in
+the new message.
 
 Commits in a pull request don't need these lines: whoever merges it names the
 update when squash-merging, and the check on the pull request only notes the
