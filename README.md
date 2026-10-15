@@ -321,13 +321,60 @@ changelog. Minor updates are recorded but never shown, so they never bury the
 changes that matter. Until you commit the first entry, the website has no
 changelog page.
 
-### Dates
+### Commits and dates
 
 You never type a date. An update's commits are the commits that edited its
-entry, and its date is the day of the latest of them, in that commit's time
-zone. So to keep working on an update over several days, edit its entry as you
-go, and it moves back to the top. In the local preview, an entry you have not
-committed yet shows at the top, marked "Not committed yet".
+entry, and those that name the update in an `Update:` line at the end of their
+message, after a blank line:
+
+```text
+Explain how agents resolve merge conflicts
+
+Update: merge-page
+```
+
+A commit can name several updates, on lines of their own or on one line
+separated by commas, and a commit that both edits an entry and names it counts
+once. An update's date is the day of the latest of its commits, in that
+commit's time zone. So to keep working on an update over several days, name it
+in each commit, and it moves back to the top. In the local preview, an entry you
+have not committed yet shows at the top, marked "Not committed yet".
+
+An `Update:` line naming an update that no entry has ever had, usually a typo,
+is an error that lists the commits naming it. A pushed commit can't be changed,
+so add an entry with that name, or give that name to the entry the commits
+meant. A name whose entry you have since deleted is fine: its commits left the
+changelog with the entry.
+
+### Every commit names its update
+
+Every commit belongs to an update, or says it doesn't. A commit that edits an
+entry belongs to that update. Any other commit ends with an `Update:` line
+naming its update, or, when it changes nothing readers would notice, such as a
+fix to this README, with this line:
+
+```text
+Changelog: none
+```
+
+A git hook can check each commit as you make it. When a commit names no update,
+the hook stops it, says what to add, and lists the updates you changed most
+recently. It needs only Node. Install it with
+[prek](https://github.com/j178/prek):
+
+```sh
+prek install --hook-type commit-msg
+```
+
+Commits in a pull request don't need these lines: whoever merges it names the
+update when squash-merging, and the check on the pull request only notes the
+commits that don't. On `main`, the same check flags any commit that slipped
+through without one. The check lives in `.github/commit-check/`, with its tests:
+
+```sh
+node .github/commit-check/commit-check.mjs origin/main..HEAD
+node --test '.github/commit-check/*.test.mjs'
+```
 
 ### Links to pages that are gone
 
