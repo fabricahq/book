@@ -12,6 +12,23 @@ link, which opens the
 [Suggest an edit](https://github.com/fabricahq/book/issues/new?template=suggest-an-edit.yml) issue form with
 the page already filled in.
 
+## License
+
+Unless otherwise noted, the book's text and original diagrams are licensed
+under [Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International
+(CC BY-NC-SA 4.0)](https://creativecommons.org/licenses/by-nc-sa/4.0/).
+See [LICENSE](LICENSE) for the full terms.
+
+Noncommercial sharing and adaptation are welcome with attribution and the
+required notices. Shared adaptations must follow the license's ShareAlike
+terms. Fabrica also grants [additional permission for commercial copying of
+diagrams and excerpts](92-faq/index.md#can-companies-copy-diagrams-or-quote-paragraphs-and-pages),
+including use in company documentation, presentations, and paid courses.
+Selling the whole book or commercially distributing an adapted edition still
+requires separate permission, unless a copyright exception applies. See the
+[licensing FAQ](92-faq/index.md#what-license-does-the-book-use) for the terms
+and how to request permission.
+
 ## How publishing works
 
 1. You push to `main`.
