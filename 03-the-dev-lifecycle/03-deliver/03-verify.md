@@ -23,7 +23,7 @@ Keep a small set covering the flows that matter, since these tests are slow and 
 
 ### Use property-based tests
 
-An agent tends to pick test examples that match its own logic. Property-based tests instead state a rule that must always hold, and a tool such as [fast-check](https://fast-check.dev/), [Hypothesis](https://hypothesis.readthedocs.io/), or [proptest](https://github.com/proptest-rs/proptest) generates thousands of inputs to break it, then shrinks any failure to its smallest case.
+An agent tends to pick test examples that match its own logic. Property-based tests instead state a rule that must always hold, and a tool such as [fast-check](https://fast-check.dev/) (TypeScript), [Hypothesis](https://hypothesis.readthedocs.io/) (Python), [proptest](https://github.com/proptest-rs/proptest) (Rust), or [Rapid](https://github.com/flyingmutant/rapid) (Go) generates thousands of inputs to break it, then shrinks any failure to its smallest case.
 
 Common properties: encoding then decoding returns the original, a balance never goes negative, doing something twice equals doing it once, and a fast version matches a simple one. Start with a small pure function, and save each failure as a regular test.
 
