@@ -66,7 +66,7 @@ And possibly more. We can establish confidence by having agents assess the work 
 
 Some teams assess the risk level of their work products and only human-review what they deem to be "high risk."
 
-But in the end, until checking the work is cheap, every agent you add just adds to your review load. This is why `@poteto` emphasizes verification so much.
+But in the end, until checking the work is cheap, every agent you add just adds to your review load. This is why `@poteto` emphasizes verification so much. See [Verify](../03-the-dev-lifecycle/03-deliver/03-verify.md).
 
 ### Autonomy
 
