@@ -28,3 +28,10 @@ status: planned
 - It does generate a spec, so you could review that
 - But it might be more useful to have a visual tree where the most consequential decisions are seen at the top
 - Then you can keep expanding it to get a feel for whether those are worth reviewing, or whether just the big stuff at the top is good enough
+
+### Plan conformance checker
+
+- Takes the plan I want to review, with my schemas, my system vocabulary, and my data flows
+- As part of the review and the pull request, checks the implementation against them to make sure they're all in line
+- If they're not, and the agent wants to depart from them, it raises the reason for doing so
+- Or maybe that's actually part of [validation](../03-the-dev-lifecycle/03-deliver/04-validate.md)
