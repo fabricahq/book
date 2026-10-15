@@ -11,7 +11,7 @@ When the agent can check its own work, it can loop for much longer without your 
 
 Verify asks "did the agent build it right?" [Validate](04-validate.md) asks "did it build the right thing?"
 
-Most of these techniques come from Addy Osmani's [Agentic verification](https://addyo.substack.com/p/agentic-verification).
+Most of these techniques come from Addy Osmani's [Agentic verification](https://addyo.substack.com/p/agentic-verification) and Lauren Tan's (`@poteto`) [The Complete Guide to pstack, Part 1](https://x.com/poteto/status/2094457600259842065).
 
 ## Write the check first
 
@@ -35,7 +35,7 @@ A flaky test teaches the agent to rerun instead of fix. A slow one makes it batc
 
 ## Let the agent drive your app
 
-Lauren Tan (`@poteto`) [argues](https://x.com/poteto/status/2094457600259842065) the agent should be able to run, use, and debug your app as you would, for example through the [Chrome DevTools Protocol](https://chromedevtools.github.io/devtools-protocol/). So choose a stack that allows it, and give the agent:
+Tan argues the agent should be able to run, use, and debug your app as you would, for example through the [Chrome DevTools Protocol](https://chromedevtools.github.io/devtools-protocol/). So choose a stack that allows it, and give the agent:
 
 - A verification skill that says how to launch, drive, and observe the app, such as one written by [create-verification-skill](https://github.com/cursor/plugins/blob/main/pstack/skills/create-verification-skill/SKILL.md)
 - A [feature map](https://github.com/poteto/verification-skill-example/blob/main/.cursor/skills/verify-atlas/references/features/README.md) of what your app does and how to reach it, refreshed daily
