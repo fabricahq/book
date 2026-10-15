@@ -91,7 +91,7 @@ How many agents can you manage at once? The limit is you again: which agent need
 
 ### Integration
 
-How fast does parallel work land? Five agents can open five pull requests in an hour, but each one still has to pass CI, merge cleanly, and deploy. See [Merge](../03-the-dev-lifecycle/03-deliver/04-merge.md) and [Deploy](../03-the-dev-lifecycle/03-deliver/05-deploy.md).
+How fast does parallel work land? Five agents can open five pull requests in an hour, but each one still has to pass CI, merge cleanly, and deploy. See [Merge](../03-the-dev-lifecycle/03-deliver/05-merge.md) and [Deploy](../03-the-dev-lifecycle/03-deliver/06-deploy.md).
 
 ### Learning
 
