@@ -1,35 +1,88 @@
-# The Fabrica book
+# A Comprehensive Guide to Software Factories
 
-This repository holds the text of the book published at
-[fabricahq.com/book](https://fabricahq.com/book/). Write it in plain Markdown
-with any text editor. The website turns these files into pages; nothing here
-needs HTML or a build step.
+How to build a software factory you own, from one supervised task to a
+self-improving factory.
 
-The book is a work in progress, and contributions are welcome. Open an issue
-for a correction or an idea, or send a pull request that follows the layout
-below. Every page on the website ends with a "Suggest an edit to this page"
-link, which opens the
-[Suggest an edit](https://github.com/fabricahq/book/issues/new?template=suggest-an-edit.yml) issue form with
-the page already filled in.
+**[Read the book at fabricahq.com/book](https://fabricahq.com/book/)**
+
+## What this book is
+
+An open guide to building a software factory, and anyone can help write it.
+
+It started as a near real-time record of what I'm learning about how to
+structure a software factory. Writing it as a book forces me to organize those
+insights into a coherent mental model, and hopefully makes them useful to
+others, too.
+
+But no one person has all the answers here. My hope is that anyone who sees a
+way to improve this book will do so, and that it becomes a community-authored
+work. Everything in it comes from building and running real software
+factories, or from people whose ideas it credits by name.
+
+## What's inside
+
+The book builds from one task to a whole factory:
+
+1. **Introduction:** what a software factory is, and why to own one
+2. **Foundations:** before the first thing
+3. **The dev lifecycle:** one thing, with you in the loop
+4. **Loops:** one thing, without you
+5. **Orchestration:** many things at once, reviewed at the right time
+6. **Self-improvement:** the factory that improves the factory
+
+Appendices hold a toolbox, a glossary, and the
+[FAQs](https://fabricahq.com/book/faq/).
+
+## A work in progress
+
+Software factories are changing by the day, so the book reflects our best
+thinking so far and gets revised as we learn. Each page has a status:
+**Planned** pages have an outline, **Draft** pages are written but not yet
+polished, and **Written** pages are finished, at least for now.
+
+To follow along, read the [changelog](https://fabricahq.com/book/changes/),
+which lists every meaningful update, or watch this repository to see every
+change as it lands.
+
+## Contributing
+
+Every improvement is welcome, big or small: a whole new section, a new
+insight, a better example, a clearer explanation, or a typo fix.
+
+- **Suggest an edit.** Every page on the website ends with a "Suggest an edit
+  to this page" link, which opens the
+  [Suggest an edit](https://github.com/fabricahq/book/issues/new?template=suggest-an-edit.yml)
+  issue form with the page already filled in.
+- **Open an [issue](https://github.com/fabricahq/book/issues/new/choose)** to
+  point out a problem or propose an idea.
+- **Send a pull request** with the change itself. The
+  [contributor guide](#contributor-guide) below explains how the book's files
+  work.
 
 ## License
 
 Unless otherwise noted, the book's text and original diagrams are licensed
 under [Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International
 (CC BY-NC-SA 4.0)](https://creativecommons.org/licenses/by-nc-sa/4.0/).
-See [LICENSE](LICENSE) for the full terms.
+See [LICENSE](https://github.com/fabricahq/book/blob/main/LICENSE) for the full terms.
 
 Noncommercial sharing and adaptation are welcome with attribution and the
 required notices. Shared adaptations must follow the license's ShareAlike
 terms. Fabrica also grants [additional permission for commercial copying of
-diagrams and excerpts](92-faq/index.md#can-companies-copy-diagrams-or-quote-paragraphs-and-pages),
+diagrams and excerpts](https://fabricahq.com/book/faq/#can-companies-copy-diagrams-or-quote-paragraphs-and-pages),
 including use in company documentation, presentations, and paid courses.
 Selling the whole book or commercially distributing an adapted edition still
 requires separate permission, unless a copyright exception applies. See the
-[licensing FAQ](92-faq/index.md#what-license-does-the-book-use) for the terms
+[licensing FAQ](https://fabricahq.com/book/faq/#what-license-does-the-book-use) for the terms
 and how to request permission.
 
-## How publishing works
+## Contributor guide
+
+This repository holds the text of the book. Write it in plain Markdown with
+any text editor. The website turns these files into pages; nothing here needs
+HTML or a build step.
+
+### How publishing works
 
 1. You push to `main`.
 2. A workflow in this repository asks the website's repository,
@@ -42,7 +95,7 @@ and how to request permission.
 
 Everything you push to `main` here will be on the website.
 
-## Layout
+### Layout
 
 ```text
 index.md                      the book's title, and its introduction as the body
@@ -91,7 +144,7 @@ changes/                      the changelog: one entry per update
   phase. The one exception is `changes/` at the top of the book: its Markdown
   files are the entries of [the changelog](#the-changelog), never pages.
 
-## Order and numbers
+### Order and numbers
 
 Each chapter folder, phase folder, and section file name starts with a number
 and a hyphen, such as `02-foundations`, `02-shape`, or `03-plan.md`. The numbers
@@ -125,7 +178,7 @@ can be named `changes`, because the changelog is at
 
 Names use lowercase letters, digits, and hyphens.
 
-## Front matter
+### Front matter
 
 Each page can start with a few `key: value` lines between `---` lines:
 
@@ -138,13 +191,13 @@ status: draft
 The section's text starts here.
 ```
 
-| Field      | Where                   | Meaning                                                    |
-| ---------- | ----------------------- | ---------------------------------------------------------- |
-| `title`    | Every page, and every changelog entry | A page's title: required, unless the file starts with a `# Title` line, which then becomes the title. An entry's headline: required. |
-| `status`   | Chapters, phases, and sections | `planned`, `draft`, or `solid`. Leave it out for `solid`.  |
-| `subtitle` | A chapter's `index.md`  | Optional. One line shown in italics under the chapter's title, in the contents and on the chapter's page. |
-| `appendix` | A chapter's `index.md`  | `true` makes the chapter an appendix. Appendices come after every chapter. |
-| `kind`     | A changelog entry       | Required: `new`, `major-update`, `minor-update`, or `removed`. An entry sets only `kind` and `title`. See [the changelog](#the-changelog). |
+| Field      | Where                                 | Meaning                                                                                                                                    |
+| ---------- | ------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------ |
+| `title`    | Every page, and every changelog entry | A page's title: required, unless the file starts with a `# Title` line, which then becomes the title. An entry's headline: required.       |
+| `status`   | Chapters, phases, and sections        | `planned`, `draft`, or `solid`. Leave it out for `solid`.                                                                                  |
+| `subtitle` | A chapter's `index.md`                | Optional. One line shown in italics under the chapter's title, in the contents and on the chapter's page.                                  |
+| `appendix` | A chapter's `index.md`                | `true` makes the chapter an appendix. Appendices come after every chapter.                                                                 |
+| `kind`     | A changelog entry                     | Required: `new`, `major-update`, `minor-update`, or `removed`. An entry sets only `kind` and `title`. See [the changelog](#the-changelog). |
 
 Any other field is an error, so a typo such as `stauts` cannot hide.
 
@@ -154,7 +207,7 @@ not yet written out; **Draft** is written, but not yet complete or polished;
 outline: list what it will cover below its front matter. A planned chapter or
 phase needs none, since its sections are its outline.
 
-### Status
+#### Status
 
 - `planned`: an outline of what the page will cover. The page opens with a
   note that it is not written yet.
@@ -170,20 +223,22 @@ too. Drafts are labeled "Draft", and planned titles, chapters included, are
 lighter. Each page shows its own
 status; a chapter's status says nothing about its sections.
 
-### Updated dates
+#### Updated dates
 
 Each chapter, phase, and section page shows the day it was last updated: the
 day of the last commit that changed its file, in that commit's time zone. You
 never type a date. Renaming or moving a file changes it too, so reordering
-updates the dates of the pages that moved.
+updates the dates of the pages that moved. When an update in the changelog
+links to the page, the date links to the page's own list of updates;
+otherwise, to the file's commits on GitHub.
 
-## Writing
+### Writing
 
 Use ordinary Markdown, including tables and code blocks. The page title is the
 page's top heading, so start your own headings at `##`. Raw HTML shows as
 text, with one exception below.
 
-### Collapsible sections
+#### Collapsible sections
 
 To tuck away something only some readers need, such as an example, put it in a
 collapsible section, written the way GitHub shows one:
@@ -206,7 +261,7 @@ blank line after the `<summary>` line and before `</details>`, so what it hides
 is ordinary Markdown. The label is plain text. A section that is never closed,
 or that is written any other way, is an error.
 
-### Links and images
+#### Links and images
 
 Link to other pages with relative paths to their files, the way they work on
 GitHub:
@@ -228,7 +283,7 @@ Link a whole chapter or phase by its folder: [Foundations](../02-foundations/).
 - A link to a file or heading that does not exist is an error. Links to other websites
   start with `https://`.
 
-### Diagrams
+#### Diagrams
 
 Draw a diagram with a [Mermaid](https://mermaid.js.org/) code block. GitHub
 shows it as a diagram, and the website draws it in the site's colors, in light
@@ -248,7 +303,7 @@ flowchart LR
 - Flowcharts, state, sequence, class, and ER diagrams, and XY charts, are
   supported. A diagram that cannot be drawn is an error.
 
-### Left out of the book
+#### Left out of the book
 
 These are never published, so you can keep notes beside the book:
 
@@ -258,7 +313,7 @@ These are never published, so you can keep notes beside the book:
 - Markdown files named in capitals, such as `README.md` (including this one),
   `CONTEXT.md`, and `AGENTS.md`. These are documents about the repository.
 
-## The changelog
+### The changelog
 
 The changelog at `fabricahq.com/book/changes/` tells readers what has changed
 in the book. It lists **updates**: changes readers would care about, each
@@ -296,32 +351,38 @@ title: Updated The environment to start from where agents run
   way pages link to each other: relative to the entry, as in the example.
   Those links are the update's pages.
 - The changelog sets each item that starts with a page link like the contents:
-  the page's chapter in small type, then the page's number and title as the
-  link, then your note on a line of its own. The page's current number and
-  title replace your link text, so they stay right as the book changes.
+  the page's number and title as the link, then your note on a line of its
+  own, with pages grouped under a small header naming their chapter or
+  appendix. A chapter's own page appears under its header as "Overview". The
+  page's current number and title replace your link text, so they stay right
+  as the book changes.
 
-### Kinds
+#### Kinds
 
 An update has one kind, its most significant. Change it as the update grows,
 such as from `minor-update` to `major-update`.
 
-| Kind           | On the changelog      | Use it when                                                               |
-| -------------- | --------------------- | ------------------------------------------------------------------------- |
-| `new`          | Listed, marked "New"  | You add a page or chapter.                                                |
-| `major-update` | Listed                | The guidance changes enough that a reader might think differently.        |
-| `minor-update` | Not shown             | A page keeps its core message and says it better, or moves or is renamed. |
-| `removed`      | Listed                | You take a page out.                                                      |
+| Kind           | On the changelog     | Use it when                                                               |
+| -------------- | -------------------- | ------------------------------------------------------------------------- |
+| `new`          | Listed, marked "New" | You add a page or chapter.                                                |
+| `major-update` | Listed               | The guidance changes enough that a reader might think differently.        |
+| `minor-update` | Not shown            | A page keeps its core message and says it better, or moves or is renamed. |
+| `removed`      | Listed               | You take a page out.                                                      |
 
 The changelog lists the 20 latest updates that are not minor, newest first,
 each with its date, its title, and its summary. Only new pages carry a badge,
 "New" under the date, so they stand out. Readers can filter the changelog to new
 pages, updates, or removals; each filter is its own page, such as
-`/book/changes/updates/`. The note on the book's home page links to the
+`/book/changes/updates/`. Each update lists its commits, collapsed under their
+count, each linking to the commit on GitHub. Every page has its own list of the
+updates that link to it, at `/book/changes/page/` followed by the page's
+address, such as `/book/changes/page/introduction/principles/`; when an
+update links to the page, the page's updated date links there. The note on the book's home page links to the
 changelog. Minor updates are recorded but never shown, so they never bury the
 changes that matter. Until you commit the first entry, the website has no
 changelog page.
 
-### Commits and dates
+#### Commits and dates
 
 You never type a date. An update's commits are the commits that edited its
 entry, and those that name the update in an `Update:` line at the end of their
@@ -346,7 +407,7 @@ so add an entry with that name, or give that name to the entry the commits
 meant. A name whose entry you have since deleted is fine: its commits left the
 changelog with the entry.
 
-### Every commit names its update
+#### Every commit names its update
 
 Every commit belongs to an update, or says it doesn't. A commit that edits an
 entry belongs to that update. Any other commit ends with an `Update:` line
@@ -381,14 +442,14 @@ node .github/commit-check/commit-check.mjs origin/main..HEAD
 node --test '.github/commit-check/*.test.mjs'
 ```
 
-### Links to pages that are gone
+#### Links to pages that are gone
 
 Entries are history. A summary's link to a page that has since been renamed or
 removed shows as plain text instead of an error, and a link to a heading that
 is gone still leads to its page, so old entries never need fixing. Every other
 link rule still applies.
 
-## Preview while writing
+### Preview while writing
 
 Run the website locally and read the book from this checkout. Pages update as
 you save. This takes access to the website's repository, which is private.
