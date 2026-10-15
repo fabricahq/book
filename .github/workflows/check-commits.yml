@@ -43,12 +43,23 @@ jobs:
         run: |
           if [ "$EVENT" = pull_request ]; then
             range="$BASE..$HEAD"
-          elif git cat-file -e "$BEFORE^{commit}" 2>/dev/null; then
+          elif git cat-file -e "$BEFORE^{commit}" 2>/dev/null ||
+            git fetch --quiet --no-tags origin "$BEFORE" 2>/dev/null; then
+            # A force push replaces commits the checkout no longer has, so
+            # fetch them to check every commit since.
             range="$BEFORE..$AFTER"
           else
-            # A new branch, or a push replacing commits this checkout no
-            # longer has: check the pushed commit alone.
-            range="$AFTER^!"
+            # A new branch, or a force push past commits GitHub no longer
+            # has: the commits the push lists, oldest first.
+            first=$(jq -r '.commits[0].id // empty' "$GITHUB_EVENT_PATH")
+            if [ -z "$first" ]; then
+              echo "The push adds no commits to check."
+              exit 0
+            elif git cat-file -e "$first^" 2>/dev/null; then
+              range="$first^..$AFTER"
+            else
+              range="$AFTER"
+            fi
           fi
           status=0
           node .github/commit-check/commit-check.mjs "$range" || status=$?
