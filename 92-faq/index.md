@@ -9,6 +9,8 @@ This book is a near real-time, distilled record of what I'm learning about how t
 
 Putting my insights into book form forces me to organize them into a coherent mental model, and hopefully makes them useful to others, too. And of course, as I go, all of this will be easy for some future AI to take in and build on!
 
+It's my hope that anyone who sees an opportunity to improve this book will do so. Ultimately, I'd like this to become a community-authored work.
+
 ## How does this book get updated?
 
 Whenever I learn something about AI-driven software development, or about how to build a software factory around it, I record it in [fabricahq/book](https://github.com/fabricahq/book).
