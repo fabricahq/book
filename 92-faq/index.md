@@ -11,6 +11,28 @@ It started as a near real-time, distilled record of what I'm learning about how 
 
 But no one person has all the answers here. It's my hope that anyone who sees an opportunity to improve this book will do so. Ultimately, I'd like this to become a community-authored work.
 
+## What license does the book use?
+
+Unless otherwise noted, the book's text and original diagrams are licensed under [Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International (CC BY-NC-SA 4.0)](https://creativecommons.org/licenses/by-nc-sa/4.0/). The idea is simple: you're welcome to share and build on the book for noncommercial purposes, as long as you give credit and keep shared adaptations under the same terms.
+
+## Can I copy diagrams, excerpts, or the whole book?
+
+Yes. You can copy a diagram, quote paragraphs or pages, or share the entire book as a PDF for noncommercial purposes. You can also translate or adapt it. When sharing, follow these conditions:
+
+- **Give credit.** Credit the Fabrica book, link to [the original](https://fabricahq.com/book/) and [the license](https://creativecommons.org/licenses/by-nc-sa/4.0/), and retain any supplied copyright and other required notices.
+- **Identify changes.** Say if you've changed the material, and retain notices of earlier changes.
+- **Share adaptations under the same terms.** If you distribute a translation or other adaptation, use CC BY-NC-SA 4.0 or another license permitted by its ShareAlike terms.
+
+For example, sharing an unchanged PDF with a study group is allowed when the use is noncommercial and you keep the attribution and license notices.
+
+## What isn't allowed under the license?
+
+You need separate permission to sell copies, publish a paid Kindle edition, or otherwise reuse the material for commercial purposes. Noncommercial means the use isn't primarily intended for commercial advantage or monetary compensation. Giving something away for free doesn't automatically make the use noncommercial.
+
+You also can't remove required credit, pass off the original material as your own, imply that Fabrica endorses your version, or use additional legal restrictions or digital locks to take away the sharing rights the license grants.
+
+To request commercial permission, [open an issue](https://github.com/fabricahq/book/issues). Copyright exceptions, such as fair use, still apply and don't require permission under this license. This FAQ is a summary; the [full license](https://creativecommons.org/licenses/by-nc-sa/4.0/legalcode.en) governs reuse.
+
 ## How can I contribute?
 
 Every improvement is welcome, big or small: a whole new section, a new insight, a better example, a clearer explanation, or a typo fix.
