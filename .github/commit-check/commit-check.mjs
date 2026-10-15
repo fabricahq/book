@@ -100,11 +100,30 @@ const trailerValues = (trailers, key) =>
     .filter((match) => match && match[1].trim().toLowerCase() === key)
     .map((match) => match[2].trim());
 
+/** The commit `revision` names in `book`, or "" when it names none, such as HEAD before the first commit. */
+const commitOf = (book, revision) => run(book, ["rev-parse", "--quiet", "--verify", "--end-of-options", `${revision}^{commit}`]).stdout.trim();
+
+/**
+ * True when the commit being made amends HEAD. git gives a hook the author of the commit it is
+ * making, and an amend keeps HEAD's author and author date, where a new commit is dated now. A new
+ * commit by the same author in the same second as HEAD looks the same; the check on pushed commits
+ * catches anything that lets through. An amend with --reset-author looks like a new commit.
+ */
+function amendsHead(book) {
+  const date = process.env.GIT_AUTHOR_DATE?.match(/^@(\d+) [+-]\d{4}$/)?.[1];
+  if (!date || !commitOf(book, "HEAD")) return false;
+  const [at, name, email] = git(book, ["log", "-1", "--format=%at%x00%an%x00%ae", "HEAD"]).trim().split("\0");
+  return at === date && name === process.env.GIT_AUTHOR_NAME && email === process.env.GIT_AUTHOR_EMAIL;
+}
+
 /** The commit being made in `book`: its problems, or null when it is not checked. */
 async function checkStaged(book, messageFile) {
   if (run(book, ["rev-parse", "--quiet", "--verify", "MERGE_HEAD"]).status === 0) return null;
+  // An amended commit replaces HEAD, so its changes are those since HEAD's parent, or since nothing
+  // when HEAD is the first commit.
+  const base = amendsHead(book) ? [commitOf(book, "HEAD^") || git(book, ["hash-object", "-t", "tree", "--stdin"], "").trim()] : [];
   const entries = new Set(entriesIn(git(book, ["ls-files", "-z", "--", `${CHANGES_DIR}/`])));
-  const edited = git(book, ["diff", "--cached", "--name-only", "--no-renames", "-z"]).split("\0").filter(entryAt);
+  const edited = git(book, ["diff", "--cached", "--name-only", "--no-renames", "-z", ...base]).split("\0").filter(entryAt);
   if (!entries.size && !edited.length) return null;
   // git commit --verbose shows the diff below a scissors line, which is not part of the message.
   const text = (await readFile(messageFile, "utf8")).split(/^# -+ >8 -+$/m)[0];

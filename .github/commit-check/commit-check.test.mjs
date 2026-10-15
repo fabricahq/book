@@ -101,6 +101,22 @@ async function checkStaged(dir, files, message) {
   return check(dir, ["--message", ".git/COMMIT_EDITMSG"]);
 }
 
+/**
+ * Install the check as `dir`'s commit-msg hook, and return a function that runs git commit there
+ * with `args`. Each new commit is a minute after the last, as commits made by hand are; an amend
+ * keeps its commit's author date, as git does.
+ */
+async function withHook(dir) {
+  const hook = join(dir, ".git/hooks/commit-msg");
+  await writeFile(hook, `#!/bin/sh\nexec "${process.execPath}" "${CHECK}" --message "$1"\n`);
+  await chmod(hook, 0o755);
+  let minute = 0;
+  return (args) => {
+    const env = args.includes("--amend") ? process.env : { ...process.env, GIT_AUTHOR_DATE: `2026-10-01T09:${String(minute++).padStart(2, "0")}:00Z` };
+    return spawnSync("git", ["-C", dir, "-c", "user.name=A", "-c", "user.email=a@example.com", "commit", "--quiet", "--no-gpg-sign", ...args], { encoding: "utf8", env });
+  };
+}
+
 /** The lines that say what is wrong: everything before the guide. */
 const problemsOf = (stderr) => stderr.slice(0, stderr.indexOf("\n\nEvery commit to the book")).trim().split("\n");
 
@@ -221,10 +237,7 @@ test("a commit being made to a book without a changelog yet, or that concludes a
 
 test("as the commit-msg hook, the check sees exactly what git commit is about to record, even from a temporary index", async () => {
   await withCheckout({}, async (dir) => {
-    const hook = join(dir, ".git/hooks/commit-msg");
-    await writeFile(hook, `#!/bin/sh\nexec "${process.execPath}" "${CHECK}" --message "$1"\n`);
-    await chmod(hook, 0o755);
-    const commit = (args) => spawnSync("git", ["-C", dir, "-c", "user.name=A", "-c", "user.email=a@example.com", "commit", "--quiet", "--no-gpg-sign", ...args], { encoding: "utf8" });
+    const commit = await withHook(dir);
     // Staged: an entry edit. Committed: only the page given by path, through a temporary index.
     await stage(dir, { "changes/plan-wording.md": entry("Reworded the plan", "Clearer still.", "minor-update") });
     await write(dir, pageEdit());
@@ -237,6 +250,25 @@ test("as the commit-msg hook, the check sees exactly what git commit is about to
     await write(dir, pageEdit("Even more."));
     assert.match(commit(["--all", "--message", "Say even more"]).stderr, /^This commit names no update\.$/m);
     assert.equal(commit(["--all", "--message", "Say even more\n\nUpdate: plan-wording"]).status, 0);
+  });
+});
+
+test("amending a commit counts the changes it already had", async () => {
+  await withCheckout({}, async (dir) => {
+    const commit = await withHook(dir);
+    // The author of the checkout's first commit, so amending it keeps both.
+    const author = { ...process.env, GIT_AUTHOR_NAME: "Test Author", GIT_AUTHOR_EMAIL: "author@example.com" };
+    const amendFirst = spawnSync("git", ["-C", dir, "-c", "user.name=Test Author", "-c", "user.email=author@example.com", "commit", "--quiet", "--no-gpg-sign", "--amend", "--message", "Start the book, its changelog included"], { encoding: "utf8", env: author });
+    assert.equal(amendFirst.status, 0, `the first commit, which added every entry: ${amendFirst.stderr}`);
+    await stage(dir, { "changes/plan-wording.md": entry("Reworded the plan", "Clearer still.", "minor-update") });
+    assert.equal(commit(["--message", "Reword the plan update"]).status, 0);
+    assert.equal(commit(["--amend", "--message", "Reword the plan update, more clearly"]).status, 0, "a new message for a commit that edited an entry");
+    await write(dir, pageEdit());
+    assert.equal(commit(["--all", "--amend", "--no-edit"]).status, 0, "a change added to it");
+    await write(dir, pageEdit("Even more."));
+    assert.match(commit(["--all", "--message", "Say more"]).stderr, /^This commit names no update\.$/m, "a new commit is not an amend");
+    assert.equal(commit(["--all", "--message", "Say more\n\nUpdate: plan-wording"]).status, 0);
+    assert.match(commit(["--amend", "--message", "Say more"]).stderr, /^This commit names no update\.$/m, "an amended commit that edited no entry still names its update");
   });
 });
 
