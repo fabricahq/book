@@ -13,10 +13,6 @@ Verify and [Validate](04-validate.md) both check whether the implementation is c
 
 Most of these techniques come from Addy Osmani's [Agentic verification](https://addyo.substack.com/p/agentic-verification) and Lauren Tan's (`@poteto`) [The Complete Guide to pstack, Part 1](https://x.com/poteto/status/2094457600259842065).
 
-## Write the check first
-
-Before the agent builds, define "done" as something a machine can check, such as a user flow or a rule that must hold. Then the task becomes "make this check pass." Let the agent fix the code, but not change the check, or it can pass by weakening it.
-
 ## End-to-end tests
 
 End-to-end tests drive the app the way a user does, so they're hard to fool. When an agent writes code and unit tests together, both can share the same misunderstanding and pass anyway.
