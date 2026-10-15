@@ -7,7 +7,9 @@ Your agent says the feature works. Does it?
 
 Without verification, you find out by checking yourself, which doesn't scale past one agent. That's why [verification is the first bottleneck](../../01-introduction/05-the-hierarchy-of-bottlenecks.md#verification).
 
-In Verify, the agent checks its own work: it runs a check, reads the result, fixes what failed, and repeats. The work reaches you with evidence that it works, so you review the evidence instead of every line. Verify asks "did the agent build it right?" [Validate](04-validate.md) asks "did it build the right thing?"
+When the agent can check its own work, it can loop for much longer without your input: run a check, read the result, fix what failed, repeat. It comes back to you only when the work passes, not every time something breaks.
+
+Verify asks "did the agent build it right?" [Validate](04-validate.md) asks "did it build the right thing?"
 
 Most of these techniques come from Addy Osmani's [Agentic verification](https://addyo.substack.com/p/agentic-verification).
 
