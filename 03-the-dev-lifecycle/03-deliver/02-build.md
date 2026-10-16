@@ -1,6 +1,6 @@
 ---
 title: Build
-status: planned
+status: draft
 ---
 
 ## Building efficiently
@@ -19,8 +19,9 @@ Of these, verification is the biggest unlock because it means the agent can do m
 - The goal is to tee up the agent to do a bunch of work while you're away.
   - That means removing the human from the loop wherever possible.
 - First, enable the agent to build the way you want by using **skills** and **rules** (See [Syllabus](https://syllabus.fabricahq.com))
-- Second, settle all the questions about what you want to build upfront during [Plan](#). If you "want to see how it looks" as part of build, then you have to wait for build to give feedback.
-- Third, enable the agent to [Verify](#) its own work.
+- Second, limit what the agent can do by [readying your codebase](../../02-foundations/01-readying-your-codebase.md).
+- Third, settle all the questions about what you want to build upfront during [Plan](#). If you "want to see how it looks" as part of build, then you have to wait for build to give feedback.
+- Fourth, enable the agent to [Verify](#) its own work.
 
 If you've done all this successfully, then:
 
