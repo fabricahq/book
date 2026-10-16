@@ -7,10 +7,15 @@ status: draft
 
 - The goal is to tee up the agent to do a bunch of work while you're away.
   - That means removing the human from the loop wherever possible.
-- First, enable the agent to build the way you want by using **skills** and **rules** (See [Syllabus](https://syllabus.fabricahq.com))
-- Second, limit what the agent can do by [readying your codebase](../../02-foundations/01-readying-your-codebase.md).
-- Third, settle all the questions about what you want to build upfront during [Plan](01-plan.md). If you "want to see how it looks" as part of build, then you have to wait for build to give feedback.
-- Fourth, enable the agent to [Verify](03-verify.md) its own work.
+- Let's think through everything you need in place to eliminate the need for human input:
+  - First, limit what the agent can do by [readying your codebase](../../02-foundations/01-readying-your-codebase.md).
+  - Second, settle all the questions about what you want to build upfront during [Plan](01-plan.md). If you "want to see how it looks" as part of build, then you have to wait for build to give feedback.
+  - Third, enable the agent to build the way you want by using **skills** and **rules** (See [Syllabus](https://syllabus.fabricahq.com))
+  - Fourth, help the agent avoid asking you for something it doesn't need to by setting up:
+    - Automated secrets management
+    - A sandbox environment where the agent has full permissions to do whatever it needs
+    - Anything else???
+  - Fifth, enable the agent to [Verify](03-verify.md) its own work.
 
 If you've done all this successfully, then:
 
