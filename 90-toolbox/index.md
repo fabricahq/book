@@ -35,3 +35,9 @@ status: planned
 - As part of the review and the pull request, checks the implementation against them to make sure they're all in line
 - If they're not, and the agent wants to depart from them, it raises the reason for doing so
 - Or maybe that's actually part of [validation](../03-the-dev-lifecycle/03-deliver/04-validate.md)
+
+### Layer diff viewer
+
+- Knows the overall system architecture, and its layers
+- Evaluates this particular pull request or change against it
+- Essentially shows me the new layers and how they relate to the existing ones, like a [layer diagram](../03-the-dev-lifecycle/03-deliver/01-plan.md#layer-diagrams) for the change
