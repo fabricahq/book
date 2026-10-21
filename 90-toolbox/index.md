@@ -41,3 +41,10 @@ status: planned
 - Knows the overall system architecture, and its layers
 - Evaluates this particular pull request or change against it
 - Essentially shows me the new layers and how they relate to the existing ones, like a [layer diagram](../03-the-dev-lifecycle/03-deliver/01-plan.md#layer-diagrams) for the change
+
+### PR design explainer
+
+- Helps me understand the design of a PR
+- I don't care about the code. I care about the design, and the approach
+- Focuses on the fastest possible way for me, the human, to understand what was built
+- Lets me review the design and architecture, schemas, concepts, and names
