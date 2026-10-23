@@ -48,3 +48,9 @@ status: planned
 - I don't care about the code. I care about the design, and the approach
 - Focuses on the fastest possible way for me, the human, to understand what was built
 - Lets me review the design and architecture, schemas, concepts, and names
+
+### Opportunity pattern detector
+
+- Detects when an [opportunity pattern](../06-self-improvement/06-opportunity-patterns.md) is happening, such as agents that keep rediscovering the same thing
+- For example, agents that each reimplement how to navigate my app, or each rediscover an undocumented API
+- Flags it, so I can do the discovery once and give every agent one canonical tool or reference
