@@ -22,6 +22,6 @@ My wife ran into the same thing in a different domain. Her agent needed to build
 
 ### How to fix it
 
-Do the discovery once, and turn what you learn into one canonical tool or reference, such as a CLI, a set of docs, or a stand-in API. Then point every agent to it, for example from a skill or a rules file. For a CLI, see [Let the agent drive your app](../03-the-dev-lifecycle/03-deliver/03-verify.md#let-the-agent-drive-your-app).
+Do the discovery once, and turn what you learn into one canonical tool or reference, such as a CLI, a set of docs, or a stand-in API. Then point every agent to it, for example from a skill or a rules file. For more on giving agents a CLI, see [Verify](../03-the-dev-lifecycle/03-deliver/03-verify.md).
 
 Ideally, the factory would notice this pattern on its own. That's a tool I'd like to have; see the [opportunity pattern detector](../90-toolbox/index.md#opportunity-pattern-detector).
