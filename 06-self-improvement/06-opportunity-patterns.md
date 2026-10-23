@@ -11,7 +11,7 @@ Each pattern below describes what happened, how to spot it, and how to fix it.
 
 ### What happened
 
-Lauren Tan (`@poteto`) noticed that while her agent ran end-to-end tests, it kept reimplementing the same approach to navigating her app. She saved a lot of time by building one official CLI for navigating the app, and then pointing every agent to it. See her [guide to pstack](https://x.com/poteto/status/2094457600259842065).
+Lauren Tan noticed that while her agent ran end-to-end tests, it kept reimplementing the same approach to navigating her app. She saved a lot of time by building one official CLI for navigating the app, and then pointing every agent to it. See her [guide to pstack](https://x.com/poteto/status/2094457600259842065).
 
 My wife ran into the same thing in a different domain. Her agent needed to build against an API whose docs were behind a gate, so it rediscovered the API on its own. Every new agent session started from scratch and rediscovered it again, which got expensive. She fixed it by building her own parallel API with canonical docs, so every agent could work from those instead.
 
