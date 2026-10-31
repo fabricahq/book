@@ -54,3 +54,10 @@ status: planned
 - Detects when an [opportunity pattern](../06-self-improvement/06-opportunity-patterns.md) is happening, such as agents that keep rediscovering the same thing
 - For example, agents that each reimplement how to navigate my app, or each rediscover an undocumented API
 - Flags it, so I can do the discovery once and give every agent one canonical tool or reference
+
+### Focus tracker
+
+- It's hard to keep track of which tasks I want to do in which order
+- That's because tasks are spread across projects, and often have dependencies
+- Keeps track of all the tasks I'm working on
+- Meaningfully organizes what I personally can focus on, versus merely what's happening in the [factory](../05-orchestration/03-patterns.md#factories) right now
