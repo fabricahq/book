@@ -38,8 +38,7 @@ In my experience, there is a common "hierarchy" of bottlenecks that individuals 
 ```mermaid
 flowchart TD
   accTitle: The hierarchy of bottlenecks
-  accDescr: It starts with your intent to ship a deliverable. Then come seven bottlenecks, met in this order: verification, review, build autonomy, integration, session capacity, cognitive load, and learning.
-  intent(["<b>Intent</b><br/>You intend to ship a deliverable."])
+  accDescr: Seven bottlenecks, met in this order: verification, review, build autonomy, integration, session capacity, cognitive load, and learning.
   verification("<b>Verification</b><br/>Can the agent check its own work?")
   review("<b>Review</b><br/>Is the work what you wanted?")
   buildAutonomy("<b>Build autonomy</b><br/>How long can one agent build without your input?")
@@ -47,7 +46,7 @@ flowchart TD
   sessionCapacity("<b>Session capacity</b><br/>Can your machines and budget run more sessions?")
   cognitiveLoad("<b>Cognitive load</b><br/>How many agents can you manage at once?")
   learning("<b>Learning</b><br/>How well does the factory learn from past mistakes?")
-  intent -.- verification --> review --> buildAutonomy --> integration --> sessionCapacity --> cognitiveLoad --> learning
+  verification --> review --> buildAutonomy --> integration --> sessionCapacity --> cognitiveLoad --> learning
 ```
 
 ### Verification
@@ -113,7 +112,7 @@ How fast does the factory stop repeating its mistakes? If each session makes the
 
 ### Intent
 
-Relieve the other seven, and what's left is deciding what you want. That's [the human's job](04-principles.md#use-the-human-for-what-only-the-human-can-do), and it never goes away. The point of working through the hierarchy is to make intent the only bottleneck left.
+Relieve all seven, and what's left is deciding what you want. That's [the human's job](04-principles.md#use-the-human-for-what-only-the-human-can-do), and it never goes away. The point of working through the hierarchy is to make intent the only bottleneck left.
 
 ## Why the order matters
 
