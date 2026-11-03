@@ -38,20 +38,29 @@ In my experience, there is a common "hierarchy" of bottlenecks that individuals 
 ```mermaid
 flowchart TD
   accTitle: The hierarchy of bottlenecks
-  accDescr: It starts with your intent to ship a deliverable. Then come six bottlenecks, met in this order: verification, autonomy, capacity, cognitive load, integration, and learning.
+  accDescr: It starts with your intent to ship a deliverable. Then come seven bottlenecks, met in this order: verification, review, build autonomy, integration, session capacity, cognitive load, and learning.
   intent(["<b>Intent</b><br/>You intend to ship a deliverable."])
-  verification("<b>Verification</b><br/>Did the agent do the work right?")
-  autonomy("<b>Autonomy</b><br/>How long can one agent run without your input?")
-  capacity("<b>Capacity</b><br/>Can your machines and budget run more agents?")
+  verification("<b>Verification</b><br/>Can the agent check its own work?")
+  review("<b>Review</b><br/>Is the work what you wanted?")
+  buildAutonomy("<b>Build autonomy</b><br/>How long can one agent build without your input?")
+  integration("<b>Integration</b><br/>How fast can finished work land?")
+  sessionCapacity("<b>Session capacity</b><br/>Can your machines and budget run more sessions?")
   cognitiveLoad("<b>Cognitive load</b><br/>How many agents can you manage at once?")
-  integration("<b>Integration</b><br/>How fast can parallel work land?")
   learning("<b>Learning</b><br/>How well does the factory learn from past mistakes?")
-  intent -.- verification --> autonomy --> capacity --> cognitiveLoad --> integration --> learning 
+  intent -.- verification --> review --> buildAutonomy --> integration --> sessionCapacity --> cognitiveLoad --> learning
 ```
 
 ### Verification
 
-Lauren Tan (better known as the venerable `@poteto` on X) makes the case that [verification is the first bottleneck](https://x.com/poteto/status/2094457600259842065). 
+Lauren Tan (better known as the venerable `@poteto` on X) makes the case that [verification is the first bottleneck](https://x.com/poteto/status/2094457600259842065).
+
+Did the agent do the work right? Until the agent can check its own work, you're the one who finds out it's broken, by running it yourself. Every agent you add just adds to that load.
+
+Once the agent can run a check, read the result, and fix what failed, it hands you work that already works. This is why `@poteto` emphasizes verification so much. See [Verify](../03-the-dev-lifecycle/03-deliver/03-verify.md).
+
+### Review
+
+With verification handled, the work runs. But is it what you wanted? Now you're the one reading diffs, to check the design, the layers, the schemas, and the names.
 
 We need _confidence_ about a work product before we can accept it. That confidence relates to:
 
@@ -66,22 +75,31 @@ And possibly more. We can establish confidence by having agents assess the work 
 
 Some teams assess the risk level of their work products and only human-review what they deem to be "high risk."
 
-But in the end, until checking the work is cheap, every agent you add just adds to your review load. This is why `@poteto` emphasizes verification so much. See [Verify](../03-the-dev-lifecycle/03-deliver/03-verify.md).
+But in the end, until reviewing the work is cheap, every agent you add just adds to your review load. See [Validate](../03-the-dev-lifecycle/03-deliver/04-validate.md).
 
-### Autonomy
+### Build autonomy
 
-With verification handled, you can now trust your agent's work. The next bottleneck is when the agent stops interrupting you with prompts that don't actually need your input. These include:
+With review handled, you can trust your agent's work. The next bottleneck is how long the agent can build before it stops to ask you for something it shouldn't need you for, such as:
 
-- Asking for permission
-- Blocking on secrets access
-- Missing a tool
-- Checking a decision with you it could have made itself.
+- The right environment, such as a dev server, database, or browser it can use
+- Access to secrets
+- Permission to run a command
+- A missing tool
+- A decision it could have made itself
 
-### Capacity
+See [Build](../03-the-dev-lifecycle/03-deliver/02-build.md) and [The environment](../02-foundations/03-the-environment.md).
 
-With verification and autonomy handled, you can now spin up multiple agents in parallel.
+### Integration
 
-Do your machines and your budget have room for more agents? Each agent with its own dev server, database, and browser uses real CPU and memory, so a laptop fills up after a few, and every agent stops when the laptop sleeps. Usage limits work the same way: hit your plan's token or rate limit, and your agents stop just as surely. See [The environment](../02-foundations/03-the-environment.md).
+With one agent building on its own, how fast does its work land? Each pull request still has to pass CI, merge cleanly, and deploy. Slow or flaky CI, merge conflicts, and manual deploys all hold finished work back. See [Merge](../03-the-dev-lifecycle/03-deliver/05-merge.md) and [Deploy](../03-the-dev-lifecycle/03-deliver/06-deploy.md).
+
+If the agent has to wait on CI to find out whether its work passes, that's a verification problem instead. Give it a fast loop it can run itself.
+
+### Session capacity
+
+With work landing quickly, you can run more agent sessions in parallel.
+
+Do your machines and your budget have room for more sessions? Each session with its own dev server, database, and browser uses real CPU and memory, so a laptop fills up after a few, and every session stops when the laptop sleeps. Usage limits work the same way: hit your plan's token or rate limit, and your sessions stop just as surely. See [The environment](../02-foundations/03-the-environment.md).
 
 ### Cognitive load
 
@@ -89,21 +107,17 @@ With room to run them, you'll soon have more agents going than you can easily fo
 
 How many agents can you manage at once? The limit is you again: which agent needs you, and what was it doing? See [Orchestration](../05-orchestration/).
 
-### Integration
-
-How fast does parallel work land? Five agents can open five pull requests in an hour, but each one still has to pass CI, merge cleanly, and deploy. See [Merge](../03-the-dev-lifecycle/03-deliver/05-merge.md) and [Deploy](../03-the-dev-lifecycle/03-deliver/06-deploy.md).
-
 ### Learning
 
 How fast does the factory stop repeating its mistakes? If each session makes the last one's mistake, you pay for it every time. See [Self-improvement](../06-self-improvement/).
 
 ### Intent
 
-Relieve the other six, and what's left is deciding what you want. That's [the human's job](04-principles.md#use-the-human-for-what-only-the-human-can-do), and it never goes away. The point of working through the hierarchy is to make intent the only bottleneck left.
+Relieve the other seven, and what's left is deciding what you want. That's [the human's job](04-principles.md#use-the-human-for-what-only-the-human-can-do), and it never goes away. The point of working through the hierarchy is to make intent the only bottleneck left.
 
 ## Why the order matters
 
-Without cheap verification, ten agents means ten times the reading. Without autonomy, it means ten agents interrupting you. Each level pays off only once the ones before it are in place.
+Without verification, ten agents means ten times the testing by hand. Without cheap review, it means ten times the reading. Without build autonomy, it means ten agents interrupting you. Each level pays off only once the ones before it are in place.
 
 Real work isn't this tidy, and you'll hit a merge conflict on day one. But only one bottleneck limits you right now, and that's where your time goes furthest. You can also slide back: a new codebase without tests puts you back at verification.
 
@@ -111,11 +125,12 @@ Real work isn't this tidy, and you'll hit a merge conflict on day one. But only 
 
 Look at how you spent your day with agents:
 
-- Reading diffs? Verification.
-- Unblocking agents? Autonomy.
-- Watching your laptop slow to a crawl, or hitting usage limits? Capacity.
-- Losing track of which agent needed you? Cognitive load.
+- Finding broken work by running it yourself? Verification.
+- Reading diffs? Review.
+- Unblocking agents? Build autonomy.
 - Fixing merge conflicts or waiting on CI? Integration.
+- Watching your laptop slow to a crawl, or hitting usage limits? Session capacity.
+- Losing track of which agent needed you? Cognitive load.
 - Correcting the same mistake twice? Learning.
 
 Whatever took the most time is your bottleneck. Work on that one. [Measuring the factory](../06-self-improvement/01-measuring-the-factory.md) covers doing this with numbers.
